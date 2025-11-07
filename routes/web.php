@@ -1,16 +1,29 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\FirstController;
-use App\Http\Controllers\LoginController;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\StudentController;
+use App\Http\Controllers\TeacherController;
+use App\Http\Controllers\RegisterController;
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
+Route::middleware('guest')->group(function () {
+Route::get('/', [AuthController::class, 'loginForm']);
+Route::get('/login', [AuthController::class, 'loginForm']);
+Route::post('/login', [AuthController::class, 'login'])->name('login.submit');
 
-Route::get('/', [FirstController::class, 'index'])->middleware('guest');
-Route::get('/login', [LoginController::class, 'index'])->middleware('guest')->name('login');
-Route::post('/login', [LoginController::class, 'authenticate'])->middleware('guest')->name('authenticate');
-Route::get('/logout', [LoginController::class, 'logout'])->middleware('auth')->name('logout');
+Route::get('/register', [RegisterController::class, 'index'])->name('register');
+Route::post('/register', [RegisterController::class, 'registerProcess'])->name('register.process');
 
-Route::get('/admin/dashboard', [FirstController::class, 'index2'])->middleware('auth')->name('admin.dashboard');
+});
+
+Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth');
+
+// Admin Only
+Route::get('/admin', [AdminController::class, 'index'])->middleware(['auth', 'role:admin']);
+
+// Teacher Only
+Route::get('/teacher', [TeacherController::class, 'index'])->middleware(['auth', 'role:teacher']);
+
+// Student Only
+Route::get('/student', [StudentController::class, 'index'])->middleware(['auth', 'role:student']);
