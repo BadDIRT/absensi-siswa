@@ -2,9 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
-use Illuminate\Database\Seeder;
+use App\Models\Teacher;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Database\Seeder;
+use App\Models\Student;
 
 class TeacherSeeder extends Seeder
 {
@@ -13,11 +14,43 @@ class TeacherSeeder extends Seeder
      */
     public function run(): void
     {
-        User::create([
-            'name' => 'Teacher User',
-            'email' => 'teacher@gmail.com',
-            'password' => bcrypt('teacher123'),
-            'role' => 'teacher',
-        ]);
+        $students = Student::pluck('id')->toArray();
+
+    $data = [
+        [
+            'student_id' => collect($students)->random(),
+            'name' => fake()->name(),
+            'nip' => fake()->numerify('19870#####'),
+            'gender' => fake()->randomElement(['L', 'P']),
+            'phone_number' => fake()->phoneNumber(),
+            'created_at' => now(),
+            'updated_at' => now(),
+        ],
+        [
+            'student_id' => collect($students)->random(),
+            'name' => fake()->name(),
+            'nip' => fake()->numerify('19870#####'),
+            'gender' => fake()->randomElement(['L', 'P']),
+            'phone_number' => fake()->phoneNumber(),
+            'created_at' => now(),
+            'updated_at' => now(),
+        ],
+        [
+            'student_id' => collect($students)->random(),
+            'name' => fake()->name(),
+            'nip' => fake()->numerify('19870#####'),
+            'gender' => fake()->randomElement(['L', 'P']),
+            'phone_number' => fake()->phoneNumber(),
+            'created_at' => now(),
+            'updated_at' => now(),
+        ],
+    ];
+
+    Teacher::insert($data);
+
+    if (empty($students)) {
+    $this->command->warn('⚠️ Tidak ada data student. Lewati TeacherSeeder.');
+    return;
+}
     }
 }

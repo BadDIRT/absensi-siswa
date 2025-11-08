@@ -9,7 +9,7 @@ use App\Http\Controllers\RegisterController;
 
 Route::middleware('guest')->group(function () {
 Route::get('/', [AuthController::class, 'loginForm']);
-Route::get('/login', [AuthController::class, 'loginForm']);
+Route::get('/login', [AuthController::class, 'loginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('login.submit');
 
 Route::get('/register', [RegisterController::class, 'index'])->name('register');
@@ -17,7 +17,7 @@ Route::post('/register', [RegisterController::class, 'registerProcess'])->name('
 
 });
 
-Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth');
+Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth')->name('logout');
 
 // Admin Only
 Route::get('/admin', [AdminController::class, 'index'])->middleware(['auth', 'role:admin']);

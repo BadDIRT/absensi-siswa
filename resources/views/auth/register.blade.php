@@ -43,6 +43,48 @@
       </div>
       @endif
 
+      @if (session('success'))
+<div 
+    x-data="{ show:true }"
+    x-show="show"
+    x-transition.opacity.duration.400ms
+    class="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50"
+>
+    <div 
+        class="bg-white rounded-2xl shadow-2xl p-8 w-80 text-center transform transition-all duration-300 hover:scale-[1.03] hover:shadow-3xl"
+    >
+        <h2 class="text-2xl font-extrabold text-green-700 tracking-wide mb-1 transition-all duration-300 hover:text-green-800">
+            ✅ Berhasil!
+        </h2>
+
+        <p class="text-gray-700">
+            {{ session('success') }}
+        </p>
+
+        <p class="text-gray-500 text-xs mt-1">
+            Akun kamu siap digunakan.
+        </p>
+
+        <a 
+            href="{{ route('login') }}"
+            class="inline-block mt-5 w-full py-2 bg-green-600 text-white rounded-xl transition-all duration-300 
+                   hover:bg-green-700 hover:scale-[1.05] hover:shadow-lg active:scale-95"
+        >
+            Pergi ke Halaman Login
+        </a>
+
+        <!-- Tombol close -->
+        <button 
+            @click="show = false"
+            class="text-gray-500 text-sm mt-3 transition-all duration-300 hover:text-red-500 hover:scale-[1.1]"
+        >
+            Tutup
+        </button>
+    </div>
+</div>
+@endif
+
+
       <!-- Form -->
       <form action="{{ route('register.process') }}" method="POST" class="space-y-6 animate-slideUp">
           @csrf

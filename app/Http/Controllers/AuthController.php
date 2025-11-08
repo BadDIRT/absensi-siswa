@@ -21,7 +21,7 @@ class AuthController extends Controller
     {
         $credentials = $request->validate([
             'email' => ['required', 'email'],
-            'password' => ['required','min:8','regex:/^[A-Za-z0-9._%+-]+@gmail\.com$/'],
+            'password' => ['required','min:8'],
         ], [
             'password.min' => 'Password minimal 8 karakter.',
             'email.regex' => 'Email harus berakhiran @gmail.com'
@@ -34,11 +34,11 @@ class AuthController extends Controller
             $role = Auth::user()->role;
 
             if ($role === 'admin') {
-                return redirect()->intended('/admin');
+                return redirect('/admin');
             } elseif ($role === 'teacher') {
-                return redirect()->intended('/teacher');
+                return redirect('/teacher');
             } else {
-                return redirect()->intended('/student');
+                return redirect('/student');
             }
         }
  

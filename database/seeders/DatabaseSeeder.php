@@ -3,8 +3,13 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Student;
+use App\Models\Teacher;
 use Illuminate\Database\Seeder;
+use Database\Seeders\AdminAccountSeeder;
+use Database\Seeders\StudentAccountSeeder;
+use Database\Seeders\TeacherAccountSeeder;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class DatabaseSeeder extends Seeder
 {
@@ -24,9 +29,14 @@ class DatabaseSeeder extends Seeder
         // ]);
 
         $this->call([
-            AdminSeeder::class,
-            TeacherSeeder::class,
+            StudentAccountSeeder::class,
+            AdminAccountSeeder::class,
+            TeacherAccountSeeder::class,
+            DepartmentSeeder::class,
             StudentSeeder::class,
+            TeacherSeeder::class,
+            ClassSeeder::class,
+            AttendanceSeeder::class,
         ]);
     }
 }

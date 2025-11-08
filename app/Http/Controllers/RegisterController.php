@@ -28,10 +28,10 @@ class RegisterController extends Controller
         'name' => $request->name,
         'email' => $request->email,
         'password' => bcrypt($request->password),
-        'role' => 'default',
+        'role' => 'student',
     ]);
 
-    return redirect()->route('login')->with('success', 'Registrasi berhasil!');
+    return back()->with('success', 'Registrasi berhasil!');
 }
 
 }
