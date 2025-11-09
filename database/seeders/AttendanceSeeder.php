@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Student;
+use App\Models\Teacher;
 use App\Models\Attendance;
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -17,6 +18,7 @@ class AttendanceSeeder extends Seeder
         Attendance::insert([
             [
                     'student_id' => Student::all()->random()->id,
+                    'teacher_id' => Teacher::all()->random()->id,
                     'date' => fake()->date(),
                     'time_in' => fake()->time('H:i'),
                     'time_out' => fake()->time('H:i'),
@@ -24,6 +26,7 @@ class AttendanceSeeder extends Seeder
             ],
             [
                     'student_id' => Student::all()->random()->id,
+                    'teacher_id' => Teacher::all()->random()->id,
                     'date' => fake()->date(),
                     'time_in' => fake()->time('H:i'),
                     'time_out' => fake()->time('H:i'),
@@ -31,6 +34,7 @@ class AttendanceSeeder extends Seeder
             ],
             [
                     'student_id' => Student::all()->random()->id,
+                    'teacher_id' => Teacher::all()->random()->id,
                     'date' => fake()->date(),
                     'time_in' => fake()->time('H:i'),
                     'time_out' => fake()->time('H:i'),

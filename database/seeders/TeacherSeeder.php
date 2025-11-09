@@ -14,11 +14,9 @@ class TeacherSeeder extends Seeder
      */
     public function run(): void
     {
-        $students = Student::pluck('id')->toArray();
 
     $data = [
         [
-            'student_id' => collect($students)->random(),
             'name' => fake()->name(),
             'nip' => fake()->numerify('19870#####'),
             'gender' => fake()->randomElement(['L', 'P']),
@@ -27,7 +25,6 @@ class TeacherSeeder extends Seeder
             'updated_at' => now(),
         ],
         [
-            'student_id' => collect($students)->random(),
             'name' => fake()->name(),
             'nip' => fake()->numerify('19870#####'),
             'gender' => fake()->randomElement(['L', 'P']),
@@ -36,7 +33,6 @@ class TeacherSeeder extends Seeder
             'updated_at' => now(),
         ],
         [
-            'student_id' => collect($students)->random(),
             'name' => fake()->name(),
             'nip' => fake()->numerify('19870#####'),
             'gender' => fake()->randomElement(['L', 'P']),
@@ -48,9 +44,7 @@ class TeacherSeeder extends Seeder
 
     Teacher::insert($data);
 
-    if (empty($students)) {
-    $this->command->warn('⚠️ Tidak ada data student. Lewati TeacherSeeder.');
-    return;
-}
+
     }
 }
+

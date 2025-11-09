@@ -33,9 +33,9 @@ class DatabaseSeeder extends Seeder
             AdminAccountSeeder::class,
             TeacherAccountSeeder::class,
             DepartmentSeeder::class,
-            StudentSeeder::class,
             TeacherSeeder::class,
             ClassSeeder::class,
+            StudentSeeder::class,
             AttendanceSeeder::class,
         ]);
     }

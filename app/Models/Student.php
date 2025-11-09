@@ -19,4 +19,14 @@ class Student extends Model
     {
         return $this->hasMany(Attendance::class);
     }
+
+    public function teacher(): BelongsTo
+    {
+        return $this->belongsTo(Teacher::class);
+    }
+
+    public function department(): BelongsTo
+    {
+        return $this->belongsTo(Department::class);
+    }
 }
