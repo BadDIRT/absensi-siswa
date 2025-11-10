@@ -9,15 +9,13 @@ use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\AttendanceController;
 
-Route::middleware('guest')->group(function () {
-Route::get('/', [AuthController::class, 'loginForm']);
-Route::get('/login', [AuthController::class, 'loginForm'])->name('login');
-Route::post('/login', [AuthController::class, 'login'])->name('login.submit');
+Route::get('/', [AuthController::class, 'loginForm'])->middleware('guest');
+Route::get('/login', [AuthController::class, 'loginForm'])->name('login')->middleware('guest');
+Route::post('/login', [AuthController::class, 'login'])->name('login.submit')->middleware('guest');
 
-Route::get('/register', [RegisterController::class, 'index'])->name('register');
-Route::post('/register', [RegisterController::class, 'registerProcess'])->name('register.process');
+Route::get('/register', [RegisterController::class, 'index'])->middleware('guest')->name('register');
+Route::post('/register', [RegisterController::class, 'registerProcess'])->middleware('guest')->name('register.process');
 
-});
 
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth')->name('logout');
 
