@@ -8,6 +8,7 @@ use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\AttendanceController;
+use App\Http\Controllers\StudentCrudController;
 
 Route::get('/', [AuthController::class, 'loginForm'])->middleware('guest');
 Route::get('/login', [AuthController::class, 'loginForm'])->name('login')->middleware('guest');
@@ -33,3 +34,6 @@ Route::get('/barcode', [BarcodeController::class, 'index'])->name('barcode.index
 Route::post('/barcode/generate', [BarcodeController::class, 'generate'])->name('barcode.generate');
 Route::get('/barcode/scan', [AttendanceController::class, 'scan'])->name('barcode.scan');
 Route::post('/barcode/validate', [AttendanceController::class, 'validateScan'])->name('barcode.validate');
+
+// CRUD Routes for Admin
+Route::resource('students', StudentCrudController::class)->middleware(['auth', 'role:admin'])->name('students', 'admin.students');

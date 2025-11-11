@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Student extends Model
 {
-    protected $fillable = ['class_id', 'nisn', 'name', 'gender', 'date_of_birth'];
+    protected $fillable = ['class_id', 'nisn', 'name', 'gender', 'date_of_birth', 'nipd', 'class_id', 'department_id'];
 
     public function class(): BelongsTo
     {
@@ -18,11 +18,6 @@ class Student extends Model
     public function attendance(): HasMany
     {
         return $this->hasMany(Attendance::class);
-    }
-
-    public function teacher(): BelongsTo
-    {
-        return $this->belongsTo(Teacher::class);
     }
 
     public function department(): BelongsTo

@@ -18,7 +18,6 @@ class StudentSeeder extends Seeder
         Student::insert([
                 [
                     'class_id' => SchoolClass::all()->random()->id,
-                    'teacher_id' => Teacher::all()->random()->id,
                     'department_id' => SchoolClass::all()->random()->department_id,
                     'nisn' => fake()->unique()->numerify('00########'),
                     'nipd' => fake()->unique()->numerify('2023#####'),
@@ -28,7 +27,6 @@ class StudentSeeder extends Seeder
                 ],
                 [
                     'class_id' => SchoolClass::all()->random()->id,
-                    'teacher_id' => Teacher::all()->random()->id,
                     'department_id' => SchoolClass::all()->random()->department_id,
                     'nisn' => fake()->unique()->numerify('00########'),
                     'nipd' => fake()->unique()->numerify('2023#####'),
@@ -38,7 +36,6 @@ class StudentSeeder extends Seeder
                 ],
                 [
                     'class_id' => SchoolClass::all()->random()->id,
-                    'teacher_id' => Teacher::all()->random()->id,
                     'department_id' => SchoolClass::all()->random()->department_id,
                     'nisn' => fake()->unique()->numerify('00########'),
                     'nipd' => fake()->unique()->numerify('2023#####'),
