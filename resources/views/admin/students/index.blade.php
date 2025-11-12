@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ABSENSIKU - Data Siswa</title>
+  <title>ABSENSIKU - Data Siswa/i</title>
 
-  <script src="https://unpkg.com/alpinejs" defer></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.15.1/dist/cdn.min.js"></script>
   @vite('resources/css/app.css')
 </head>
 
-<body class="min-h-screen flex flex-col bg-gradient-to-br from-blue-400 to-blue-600 text-gray-900">
+<body class="min-h-screen flex flex-col bg-gradient-to-r from-blue-600 to-red-500 text-gray-900">
   <div class="flex flex-1">
 
     <!-- OVERLAY -->
@@ -21,10 +21,7 @@
     </div>
 
     <!-- SIDEBAR -->
-    <aside
-      class="fixed inset-y-0 left-0 w-64 bg-white/30 backdrop-blur-xl shadow-xl border-r border-white/20
-             z-50 transform transition-all duration-300 flex flex-col justify-between"
-      :class="sidebarOpen ? 'translate-x-0 opacity-100' : '-translate-x-64 opacity-0'">
+    @include('layouts.sidebar')
 
       <div class="p-6">
         <div class="flex items-center gap-3">
@@ -33,59 +30,9 @@
         </div>
 
         <!-- ✅ Sidebar Menu -->
-        <nav class="mt-8 space-y-3 text-white font-semibold">
-          <a href="{{ route('admin.dashboard') }}" 
-            class="block px-4 py-2 rounded-xl 
-              {{ request()->routeIs('admin.dashboard') 
-                  ? 'bg-gradient-to-r from-blue-500/70 to-indigo-500/70 text-white shadow-lg' 
-                  : 'bg-white/10 text-white/80 hover:bg-gradient-to-r hover:from-blue-400/40 hover:to-indigo-400/40 hover:text-white' }}
-              transition-all duration-300 ease-out transform hover:scale-105">
-            🏠 Dashboard
-          </a>
+        @include('layouts.sidebarMenu')
 
-          <a href="{{ route('students.index') }}" 
-            class="block px-4 py-2 rounded-xl 
-              {{ request()->routeIs('students.*') 
-                  ? 'bg-gradient-to-r from-blue-500/70 to-indigo-500/70 text-white shadow-lg' 
-                  : 'bg-white/10 text-white/80 hover:bg-gradient-to-r hover:from-blue-400/40 hover:to-indigo-400/40 hover:text-white' }}
-              transition-all duration-300 ease-out transform hover:scale-105">
-            👨‍🎓 Data Siswa
-          </a>
-
-          <a href="{{ route('attendances.index') }}" 
-            class="block px-4 py-2 rounded-xl 
-              {{ request()->routeIs('attendances.*') 
-                  ? 'bg-gradient-to-r from-blue-500/70 to-indigo-500/70 text-white shadow-lg' 
-                  : 'bg-white/10 text-white/80 hover:bg-gradient-to-r hover:from-blue-400/40 hover:to-indigo-400/40 hover:text-white' }}
-              transition-all duration-300 ease-out transform hover:scale-105">
-            📋 Rekap Absen
-          </a>
-
-          <a href="{{ route('barcode.index') }}" 
-            class="block px-4 py-2 rounded-xl 
-              {{ request()->routeIs('barcode.*') 
-                  ? 'bg-gradient-to-r from-blue-500/70 to-indigo-500/70 text-white shadow-lg' 
-                  : 'bg-white/10 text-white/80 hover:bg-gradient-to-r hover:from-blue-400/40 hover:to-indigo-400/40 hover:text-white' }}
-              transition-all duration-300 ease-out transform hover:scale-105">
-            ⚙️ Pengaturan
-          </a>
-        </nav>
-      </div>
-
-      <!-- LOGOUT -->
-      <div class="p-6 border-t border-white/20 bg-white/10 backdrop-blur-xl">
-        <form method="POST" action="{{ route('logout') }}">
-          @csrf
-          <button class="w-full px-4 py-2 bg-gradient-to-r from-red-500/70 to-red-600/70 
-                         hover:from-red-500 hover:to-red-400 hover:scale-105 
-                         hover:shadow-lg text-white rounded-xl transition-all duration-300 font-semibold">
-            Logout
-          </button>
-        </form>
-      </div>
-    </aside>
-
-    <!-- ✅ MAIN WRAPPER -->
+    <!-- MAIN WRAPPER -->
     <div class="flex-1 flex flex-col transition-all duration-300">
 
       <!-- HEADER -->
@@ -95,12 +42,12 @@
         <div class="flex items-center gap-3">
           <button @click="sidebarOpen = !sidebarOpen" class="text-white text-2xl font-bold">☰</button>
           <img src="/images/absensiku-logo.png" class="hidden lg:block w-10 h-10 drop-shadow-xl">
-          <h1 class="text-2xl font-bold text-white drop-shadow">Data Siswa</h1>
+          <h1 class="text-2xl font-bold text-white drop-shadow">Data Siswa/i</h1>
         </div>
 
         <a href="{{ route('students.create') }}" 
-          class="px-4 py-2 bg-gradient-to-r from-blue-400/70 to-indigo-600/70 
-                 hover:from-blue-500 hover:to-indigo-500 hover:scale-105 hover:shadow-lg 
+          class="px-4 py-2 backdrop-blur-lg 
+                  hover:scale-105 hover:shadow-lg 
                  text-white rounded-xl transition-all duration-300 font-semibold">
           + Tambah Siswa
         </a>
@@ -125,10 +72,10 @@
       </div>
       @endif
 
-      <!-- MAIN CONTENT -->
+      <!-- TABLE CONTENT -->
       <main class="p-6 space-y-8 flex-1 mt-4">
         <div class="bg-white/30 backdrop-blur-xl border border-white/20 rounded-2xl shadow-xl p-6 overflow-x-auto">
-          <h2 class="text-xl font-bold text-white mb-4">Daftar Siswa</h2>
+          <h2 class="text-xl font-bold text-white mb-4">Daftar Siswa/i</h2>
 
           <table class="w-full text-white min-w-[1000px] text-sm sm:text-base">
             <thead>
@@ -152,7 +99,7 @@
                 <td class="p-3">{{ $loop->iteration }}</td>
                 <td class="p-3">{{ $s->name }}</td>
                 <td class="p-3">{{ $s->gender === 'L' ? 'Laki-laki' : 'Perempuan' }}</td>
-                <td class="p-3">{{ $s->date_of_birth }}</td>
+                <td class="p-3">{{ \Carbon\Carbon::parse($s->date_of_birth)->translatedFormat('d F Y') }}</td>
                 <td class="p-3">{{ $s->nisn }}</td>
                 <td class="p-3">{{ $s->nipd }}</td>
                 <td class="p-3">{{ $s->address ?? '-' }}</td>

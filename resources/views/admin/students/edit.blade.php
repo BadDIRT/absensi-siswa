@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ABSENSIKU - Edit Siswa</title>
+  <title>ABSENSIKU - Edit Siswa/i</title>
 
-  <script src="https://unpkg.com/alpinejs" defer></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.15.1/dist/cdn.min.js"></script>
   @vite('resources/css/app.css')
 </head>
 
-<body class="min-h-screen flex flex-col bg-gradient-to-br from-blue-400 to-blue-600 text-gray-900">
+<body class="min-h-screen flex flex-col bg-gradient-to-r from-blue-600 to-red-500 text-gray-900">
   <div class="flex flex-1">
 
     <!-- OVERLAY -->
@@ -20,11 +20,8 @@
       class="fixed inset-0 bg-black/40 backdrop-blur-sm z-40">
     </div>
 
-    <!-- ✅ SIDEBAR -->
-    <aside
-      class="fixed inset-y-0 left-0 w-64 bg-white/30 backdrop-blur-xl shadow-xl border-r border-white/20
-             z-50 transform transition-all duration-300 flex flex-col justify-between"
-      :class="sidebarOpen ? 'translate-x-0 opacity-100' : '-translate-x-64 opacity-0'">
+    <!-- SIDEBAR -->
+    @include('layouts.sidebar')
 
       <div class="p-6">
         <div class="flex items-center gap-3">
@@ -32,59 +29,11 @@
           <h2 class="text-2xl font-bold text-white drop-shadow">ABSENSIKU</h2>
         </div>
 
-        <nav class="mt-8 space-y-3 text-white font-semibold">
-          <a href="{{ route('admin.dashboard') }}" 
-            class="block px-4 py-2 rounded-xl 
-              {{ request()->routeIs('admin.dashboard') 
-                  ? 'bg-gradient-to-r from-blue-500/70 to-indigo-500/70 text-white shadow-lg' 
-                  : 'bg-white/10 text-white/80 hover:bg-gradient-to-r hover:from-blue-400/40 hover:to-indigo-400/40 hover:text-white' }}
-              transition-all duration-300 ease-out transform hover:scale-105">
-            🏠 Dashboard
-          </a>
+        @include('layouts.sidebarMenu')
 
-          <a href="{{ route('attendances.index') }}" 
-            class="block px-4 py-2 rounded-xl 
-              {{ request()->routeIs('attendances.*') 
-                  ? 'bg-gradient-to-r from-blue-500/70 to-indigo-500/70 text-white shadow-lg' 
-                  : 'bg-white/10 text-white/80 hover:bg-gradient-to-r hover:from-blue-400/40 hover:to-indigo-400/40 hover:text-white' }}
-              transition-all duration-300 ease-out transform hover:scale-105">
-            📋 Rekap Absen
-          </a>
-
-          <a href="{{ route('students.index') }}" 
-            class="block px-4 py-2 rounded-xl 
-              {{ request()->routeIs('students.*') 
-                  ? 'bg-gradient-to-r from-blue-500/70 to-indigo-500/70 text-white shadow-lg' 
-                  : 'bg-white/10 text-white/80 hover:bg-gradient-to-r hover:from-blue-400/40 hover:to-indigo-400/40 hover:text-white' }}
-              transition-all duration-300 ease-out transform hover:scale-105">
-            👨‍🎓 Data Siswa
-          </a>
-
-          <a href="#" 
-            class="block px-4 py-2 rounded-xl bg-white/10 text-white/80 
-                   hover:bg-gradient-to-r hover:from-blue-400/40 hover:to-indigo-400/40 hover:text-white
-                   transition-all duration-300 ease-out transform hover:scale-105">
-            ⚙️ Pengaturan
-          </a>
-        </nav>
-      </div>
-
-      <!-- LOGOUT -->
-      <div class="p-6 border-t border-white/20 bg-white/10 backdrop-blur-xl">
-        <form method="POST" action="{{ route('logout') }}">
-          @csrf
-          <button class="w-full px-4 py-2 bg-gradient-to-r from-red-500/70 to-red-600/70 
-                         hover:from-red-500 hover:to-red-400 hover:scale-105 
-                         hover:shadow-lg text-white rounded-xl transition-all duration-300 font-semibold">
-            Logout
-          </button>
-        </form>
-      </div>
-    </aside>
-
-    <!-- ✅ MAIN -->
+    <!-- MAIN -->
     <div class="flex-1 flex flex-col transition-all duration-300">
-      
+
       <!-- HEADER -->
       <header 
         class="sticky top-0 z-40 w-full bg-white/20 backdrop-blur-xl border-b border-white/20 shadow-lg 
@@ -92,56 +41,48 @@
         <div class="flex items-center gap-3">
           <button @click="sidebarOpen = !sidebarOpen" class="text-white text-2xl font-bold">☰</button>
           <img src="/images/absensiku-logo.png" class="hidden lg:block w-10 h-10 drop-shadow-xl">
-          <h1 class="text-2xl font-bold text-white drop-shadow">Edit Siswa</h1>
+          <h1 class="text-2xl font-bold text-white drop-shadow">Edit Data Siswa/i</h1>
         </div>
 
         <a href="{{ route('students.index') }}" 
-          class="px-4 py-2 bg-gradient-to-r from-blue-400/70 to-indigo-700/70 
-                 hover:from-gray-500 hover:to-gray-600 hover:scale-105 hover:shadow-lg 
+          class="px-4 py-2 backdrop-blur-lg 
+                hover:scale-105 hover:shadow-lg 
                  text-white rounded-xl transition-all duration-300 font-semibold">
           Kembali
         </a>
       </header>
 
       <!-- FORM -->
-      <main class="p-6 space-y-8 flex-1 mt-4">
-        <div class="bg-white/30 backdrop-blur-xl border border-white/20 rounded-2xl shadow-xl p-8 max-w-2xl mx-auto text-white animate-fadeIn">
-          <h2 class="text-2xl font-bold mb-6 text-center animate-pop">Form Edit Siswa</h2>
+      <main class="p-6 flex-1 mt-4">
+        <div class="bg-white/30 backdrop-blur-xl border border-white/20 rounded-2xl shadow-xl p-8 max-w-2xl mx-auto text-white">
+          <h2 class="text-2xl font-bold mb-6 text-center">Form Edit Siswa/i</h2>
 
-          <form method="POST" action="{{ route('students.update', $student->id) }}" class="space-y-5 animate-slideUp">
+          <form method="POST" action="{{ route('students.update', $student->id) }}" class="space-y-5">
             @csrf
             @method('PUT')
 
             <div>
-              <label class="block mb-2 font-semibold">Nama Siswa</label>
+              <label class="block mb-2 font-semibold">Nama Siswa/i</label>
               <input type="text" name="name" value="{{ old('name', $student->name) }}" placeholder="Masukkan nama lengkap"
                 class="w-full p-3 rounded-xl bg-white/40 border border-white/60 text-black placeholder-gray-600 
                        focus:ring-2 focus:ring-blue-500 focus:scale-[1.02] transition">
               @error('name') <p class="text-red-400 text-sm mt-1">{{ $message }}</p> @enderror
             </div>
 
-            <!-- Jenis Kelamin -->
             <div>
               <label class="block mb-2 font-semibold">Jenis Kelamin</label>
-              <div x-data="{ open: false, selected: '{{ old('gender', $student->gender) == 'L' ? 'Laki-laki' : 'Perempuan' }}' }" class="relative">
-                <button type="button" @click="open = !open" class="w-full p-3 bg-white/50 border border-white/40 rounded-xl text-gray-800 flex justify-between items-center hover:bg-white/70 focus:ring-2 focus:ring-blue-400 focus:scale-[1.02] transition">
-                  <span x-text="selected"></span>
-                  <span :class="open ? 'rotate-180' : ''" class="transition-transform">▼</span>
-                </button>
-                <div x-show="open" @click.away="open=false" x-transition class="absolute z-50 mt-2 w-full bg-white/90 rounded-xl shadow-lg backdrop-blur-md text-gray-800">
-                  <div @click="selected='Laki-laki'; open=false; $refs.gender.value='L'" class="px-4 py-2 hover:bg-blue-100 rounded-t-xl cursor-pointer">Laki-laki</div>
-                  <div @click="selected='Perempuan'; open=false; $refs.gender.value='P'" class="px-4 py-2 hover:bg-blue-100 rounded-b-xl cursor-pointer">Perempuan</div>
-                </div>
-                <input type="hidden" x-ref="gender" name="gender" value="{{ old('gender', $student->gender) }}">
-              </div>
+              <select name="gender"
+                class="w-full p-3 rounded-xl bg-white/40 border border-white/60 text-black focus:ring-2 focus:ring-blue-500 focus:scale-[1.02] transition">
+                <option value="L" {{ old('gender', $student->gender) == 'L' ? 'selected' : '' }}>Laki-laki</option>
+                <option value="P" {{ old('gender', $student->gender) == 'P' ? 'selected' : '' }}>Perempuan</option>
+              </select>
               @error('gender') <p class="text-red-400 text-sm mt-1">{{ $message }}</p> @enderror
             </div>
 
             <div>
               <label class="block mb-2 font-semibold">Tanggal Lahir</label>
               <input type="date" name="date_of_birth" value="{{ old('date_of_birth', $student->date_of_birth) }}" 
-                     class="w-full p-3 rounded-xl bg-white/40 border border-white/60 text-black 
-                            focus:ring-2 focus:ring-blue-500 focus:scale-[1.02] transition">
+                     class="w-full p-3 rounded-xl bg-white/40 border border-white/60 text-black focus:ring-2 focus:ring-blue-500 focus:scale-[1.02] transition">
               @error('date_of_birth') <p class="text-red-400 text-sm mt-1">{{ $message }}</p> @enderror
             </div>
 
@@ -149,16 +90,14 @@
               <div>
                 <label class="block mb-2 font-semibold">NISN</label>
                 <input type="text" name="nisn" value="{{ old('nisn', $student->nisn) }}" 
-                       class="w-full p-3 rounded-xl bg-white/40 border border-white/60 text-black placeholder-gray-600 
-                              focus:ring-2 focus:ring-blue-500 focus:scale-[1.02] transition">
+                       class="w-full p-3 rounded-xl bg-white/40 border border-white/60 text-black placeholder-gray-600 focus:ring-2 focus:ring-blue-500 focus:scale-[1.02] transition">
                 @error('nisn') <p class="text-red-400 text-sm mt-1">{{ $message }}</p> @enderror
               </div>
 
               <div>
                 <label class="block mb-2 font-semibold">NIPD</label>
                 <input type="text" name="nipd" value="{{ old('nipd', $student->nipd) }}" 
-                       class="w-full p-3 rounded-xl bg-white/40 border border-white/60 text-black placeholder-gray-600 
-                              focus:ring-2 focus:ring-blue-500 focus:scale-[1.02] transition">
+                       class="w-full p-3 rounded-xl bg-white/40 border border-white/60 text-black placeholder-gray-600 focus:ring-2 focus:ring-blue-500 focus:scale-[1.02] transition">
                 @error('nipd') <p class="text-red-400 text-sm mt-1">{{ $message }}</p> @enderror
               </div>
             </div>
@@ -166,47 +105,36 @@
             <div>
               <label class="block mb-2 font-semibold">Alamat</label>
               <textarea name="address" rows="3" placeholder="Masukkan alamat lengkap siswa" 
-                        class="w-full p-3 rounded-xl bg-white/40 border border-white/60 text-black placeholder-gray-600 
-                               focus:ring-2 focus:ring-blue-500 focus:scale-[1.02] transition">{{ old('address', $student->address) }}</textarea>
+                        class="w-full p-3 rounded-xl bg-white/40 border border-white/60 text-black placeholder-gray-600 focus:ring-2 focus:ring-blue-500 focus:scale-[1.02] transition">{{ old('address', $student->address) }}</textarea>
               @error('address') <p class="text-red-400 text-sm mt-1">{{ $message }}</p> @enderror
             </div>
 
-            <!-- Kelas -->
-            <div x-data="{ open: false, selected: '{{ $classes->firstWhere('id', old('class_id', $student->class_id))->grade ?? 'Pilih Kelas' }}' }" class="relative">
+            <div>
               <label class="block mb-2 font-semibold">Kelas</label>
-              <button type="button" @click="open = !open" class="w-full p-3 bg-white/50 border border-white/40 rounded-xl text-gray-800 flex justify-between items-center hover:bg-white/70 focus:ring-2 focus:ring-blue-400 focus:scale-[1.02] transition">
-                <span x-text="selected"></span>
-                <span :class="open ? 'rotate-180' : ''" class="transition-transform">▼</span>
-              </button>
-              <div x-show="open" @click.away="open=false" x-transition class="absolute z-50 mt-2 w-full bg-white/90 rounded-xl shadow-lg backdrop-blur-md text-gray-800 max-h-48 overflow-y-auto">
+              <select name="class_id" class="w-full p-3 rounded-xl bg-white/40 border border-white/60 text-black focus:ring-2 focus:ring-blue-500 focus:scale-[1.02] transition">
                 @foreach($classes as $class)
-                  <div @click="selected='{{ $class->grade }}'; open=false; $refs.class_id.value='{{ $class->id }}'" 
-                       class="px-4 py-2 hover:bg-blue-100 cursor-pointer">{{ $class->grade }}</div>
+                  <option value="{{ $class->id }}" {{ old('class_id', $student->class_id) == $class->id ? 'selected' : '' }}>
+                    {{ $class->grade }}
+                  </option>
                 @endforeach
-              </div>
-              <input type="hidden" x-ref="class_id" name="class_id" value="{{ old('class_id', $student->class_id) }}">
+              </select>
               @error('class_id') <p class="text-red-400 text-sm mt-1">{{ $message }}</p> @enderror
             </div>
 
-            <!-- Jurusan -->
-            <div x-data="{ open: false, selected: '{{ $departments->firstWhere('id', old('department_id', $student->department_id))->name ?? 'Pilih Jurusan' }}' }" class="relative">
+            <div>
               <label class="block mb-2 font-semibold">Jurusan</label>
-              <button type="button" @click="open = !open" class="w-full p-3 bg-white/50 border border-white/40 rounded-xl text-gray-800 flex justify-between items-center hover:bg-white/70 focus:ring-2 focus:ring-indigo-400 focus:scale-[1.02] transition">
-                <span x-text="selected"></span>
-                <span :class="open ? 'rotate-180' : ''" class="transition-transform">▼</span>
-              </button>
-              <div x-show="open" @click.away="open=false" x-transition class="absolute z-50 mt-2 w-full bg-white/90 rounded-xl shadow-lg backdrop-blur-md text-gray-800 max-h-48 overflow-y-auto">
-                @foreach($departments as $d)
-                  <div @click="selected='{{ $d->name }}'; open=false; $refs.department_id.value='{{ $d->id }}'" 
-                       class="px-4 py-2 hover:bg-indigo-100 cursor-pointer">{{ $d->name }}</div>
+              <select name="department_id" class="w-full p-3 rounded-xl bg-white/40 border border-white/60 text-black focus:ring-2 focus:ring-blue-500 focus:scale-[1.02] transition">
+                @foreach($departments as $dept)
+                  <option value="{{ $dept->id }}" {{ old('department_id', $student->department_id) == $dept->id ? 'selected' : '' }}>
+                    {{ $dept->name }}
+                  </option>
                 @endforeach
-              </div>
-              <input type="hidden" x-ref="department_id" name="department_id" value="{{ old('department_id', $student->department_id) }}">
+              </select>
               @error('department_id') <p class="text-red-400 text-sm mt-1">{{ $message }}</p> @enderror
             </div>
 
             <button type="submit" 
-              class="w-full py-3 mt-4 bg-gradient-to-r from-blue-600 to-indigo-500 text-white rounded-xl font-semibold shadow-lg hover:scale-[1.04] active:scale-95 transition-transform">
+              class="w-full py-3 mt-6 bg-gradient-to-r from-blue-600/90 to-red-500/90 text-white rounded-xl font-semibold shadow-lg hover:scale-[1.04] hover:shadow-xl active:scale-95 transition-transform">
               Simpan Perubahan
             </button>
           </form>

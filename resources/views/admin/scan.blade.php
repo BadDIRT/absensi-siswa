@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ABSENSIKU - Scan Barcode</title>
 
-  <script src="https://unpkg.com/alpinejs" defer></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.15.1/dist/cdn.min.js"></script>
   @vite('resources/css/app.css')
   <script src="https://unpkg.com/html5-qrcode"></script>
 

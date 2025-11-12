@@ -25,6 +25,8 @@ class StudentSeeder extends Seeder
                     'gender' => fake()->randomElement(['L', 'P']),
                     'date_of_birth' => fake()->date(),
                     'address' => fake()->address(),
+                    'created_at' => now(),
+                    'updated_at' => now(),
                 ],
                 [
                     'class_id' => SchoolClass::all()->random()->id,
@@ -35,6 +37,8 @@ class StudentSeeder extends Seeder
                     'gender' => fake()->randomElement(['L', 'P']),
                     'date_of_birth' => fake()->date(),
                     'address' => fake()->address(),
+                    'created_at' => now(),
+                    'updated_at' => now(),
                 ],
                 [
                     'class_id' => SchoolClass::all()->random()->id,
@@ -45,6 +49,8 @@ class StudentSeeder extends Seeder
                     'gender' => fake()->randomElement(['L', 'P']),
                     'date_of_birth' => fake()->date(),
                     'address' => fake()->address(),
+                    'created_at' => now(),
+                    'updated_at' => now(),
                 ],
             ]);
     }

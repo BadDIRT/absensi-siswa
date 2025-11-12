@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Login - ABSENSIKU</title>
+  <title>Masuk - ABSENSIKU</title>
   @vite('resources/css/app.css')
-  <script src="https://unpkg.com/alpinejs" defer></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.15.1/dist/cdn.min.js"></script>
 </head>
 
 <body class="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-600 via-blue-400 to-blue-200 relative overflow-hidden">
@@ -90,7 +90,7 @@
 
           <!-- Password -->
           <div>
-              <label class="text-white text-sm font-semibold">Password</label>
+              <label class="text-white text-sm font-semibold">Kata sandi</label>
               <div class="relative mt-1">
                   <input 
                       :type="showPassword ? 'text' : 'password'"
