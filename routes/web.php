@@ -7,8 +7,13 @@ use App\Http\Controllers\BarcodeController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\UserCrudController;
+use App\Http\Controllers\ClassCrudController;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\StudentCrudController;
+use App\Http\Controllers\TeacherCrudController;
+use App\Http\Controllers\AttendanceCrudController;
+use App\Http\Controllers\DepartmentCrudController;
 
 Route::get('/', [AuthController::class, 'loginForm'])->middleware('guest');
 Route::get('/login', [AuthController::class, 'loginForm'])->name('login')->middleware('guest');
@@ -36,4 +41,11 @@ Route::get('/barcode/scan', [AttendanceController::class, 'scan'])->name('barcod
 Route::post('/barcode/validate', [AttendanceController::class, 'validateScan'])->name('barcode.validate');
 
 // CRUD Routes for Admin
-Route::resource('students', StudentCrudController::class)->middleware(['auth', 'role:admin'])->name('students', 'admin.students');
+Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
+    Route::resource('students', StudentCrudController::class);
+    Route::resource('classes', ClassCrudController::class);
+    Route::resource('departments', DepartmentCrudController::class);
+    Route::resource('teachers', TeacherCrudController::class);
+    Route::resource('users', UserCrudController::class);
+    Route::resource('attendances', AttendanceCrudController::class);
+});

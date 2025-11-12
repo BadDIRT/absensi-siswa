@@ -41,11 +41,29 @@ class StudentCrudController extends Controller
             'nipd' => 'required|numeric|unique:students,nipd',
             'class_id' => 'required|exists:classes,id',
             'department_id' => 'required|exists:departments,id',
+            'address' => 'nullable|string|max:500',
+        ], [
+            // Custom error messages (opsional)
+            'name.required' => 'Nama siswa wajib diisi.',
+            'gender.required' => 'Jenis kelamin wajib dipilih.',
+            'date_of_birth.required' => 'Tanggal lahir wajib diisi.',
+            'nisn.required' => 'NISN wajib diisi.',
+            'nipd.required' => 'NIPD wajib diisi.',
+            'class_id.required' => 'Kelas wajib dipilih.',
+            'department_id.required' => 'Jurusan wajib dipilih.',
+            'address.string' => 'Alamat harus berupa teks.',
+            'address.max' => 'Alamat maksimal 500 karakter.',
+            'nisn.unique' => 'NISN sudah terdaftar.',
+            'nipd.unique' => 'NIPD sudah terdaftar.',
+            'gender.in' => 'Jenis kelamin harus L atau P.',
+            'date_of_birth.date' => 'Tanggal lahir tidak valid.',
+            'class_id.exists' => 'Kelas yang dipilih tidak valid.',
+            'department_id.exists' => 'Jurusan yang dipilih tidak valid.',
         ]);
 
         Student::create($validated);
 
-        return redirect()->route('admin.students.index')
+        return redirect()->route('students.index')
             ->with('success', 'Data siswa berhasil ditambahkan!');
     }
 
@@ -81,11 +99,19 @@ class StudentCrudController extends Controller
             'nipd' => 'required|numeric|unique:students,nipd,' . $student->id,
             'class_id' => 'required|exists:classes,id',
             'department_id' => 'required|exists:departments,id',
+        ], [
+            'name.required' => 'Nama siswa wajib diisi.',
+            'gender.required' => 'Jenis kelamin wajib dipilih.',
+            'date_of_birth.required' => 'Tanggal lahir wajib diisi.',
+            'nisn.required' => 'NISN wajib diisi.',
+            'nipd.required' => 'NIPD wajib diisi.',
+            'class_id.required' => 'Kelas wajib dipilih.',
+            'department_id.required' => 'Jurusan wajib dipilih.',
         ]);
 
         $student->update($validated);
 
-        return redirect()->route('admin.students.index')
+        return redirect()->route('students.index')
             ->with('success', 'Data siswa berhasil diperbarui!');
     }
 
@@ -96,7 +122,7 @@ class StudentCrudController extends Controller
     {
         $student->delete();
 
-        return redirect()->route('admin.students.index')
+        return redirect()->route('students.index')
             ->with('success', 'Data siswa berhasil dihapus!');
     }
 }

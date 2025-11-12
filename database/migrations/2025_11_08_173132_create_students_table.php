@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('gender')->nullable();
             $table->date('date_of_birth')->nullable();
+            $table->string('address')->nullable();
             $table->timestamps();
         });
     }

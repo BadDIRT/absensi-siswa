@@ -106,19 +106,40 @@
         </a>
       </header>
 
+      <!-- ✅ ALERT SUCCESS -->
+      @if (session('success'))
+      <div 
+        x-data="{ show: true }" 
+        x-show="show" 
+        x-init="setTimeout(() => show = false, 3000)"
+        x-transition 
+        class="mx-6 mt-4 flex items-center justify-between bg-gradient-to-r from-green-400/70 to-green-600/70 
+               text-white font-semibold px-6 py-3 rounded-xl shadow-lg border border-white/20">
+        <div class="flex items-center gap-2">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2l4-4m5 2a9 9 0 11-18 0a9 9 0 0118 0z" />
+          </svg>
+          <span>{{ session('success') }}</span>
+        </div>
+        <button @click="show = false" class="text-white hover:text-white/80 transition">✕</button>
+      </div>
+      @endif
+
       <!-- MAIN CONTENT -->
       <main class="p-6 space-y-8 flex-1 mt-4">
-
         <div class="bg-white/30 backdrop-blur-xl border border-white/20 rounded-2xl shadow-xl p-6 overflow-x-auto">
           <h2 class="text-xl font-bold text-white mb-4">Daftar Siswa</h2>
 
-          <table class="w-full text-white min-w-[800px] text-sm sm:text-base">
+          <table class="w-full text-white min-w-[1000px] text-sm sm:text-base">
             <thead>
               <tr class="text-left bg-white/20">
                 <th class="p-3">No</th>
                 <th class="p-3">Nama</th>
                 <th class="p-3">JK</th>
                 <th class="p-3">Tanggal Lahir</th>
+                <th class="p-3">NISN</th>
+                <th class="p-3">NIPD</th>
+                <th class="p-3">Alamat</th>
                 <th class="p-3">Kelas</th>
                 <th class="p-3">Jurusan</th>
                 <th class="p-3 text-center">Aksi</th>
@@ -132,13 +153,14 @@
                 <td class="p-3">{{ $s->name }}</td>
                 <td class="p-3">{{ $s->gender === 'L' ? 'Laki-laki' : 'Perempuan' }}</td>
                 <td class="p-3">{{ $s->date_of_birth }}</td>
+                <td class="p-3">{{ $s->nisn }}</td>
+                <td class="p-3">{{ $s->nipd }}</td>
+                <td class="p-3">{{ $s->address ?? '-' }}</td>
                 <td class="p-3">{{ $s->class->grade ?? '-' }}</td>
                 <td class="p-3">{{ $s->department->name ?? '-' }}</td>
 
                 <td class="p-3 text-center">
                   <div class="flex flex-wrap justify-center gap-2">
-
-                    <!-- DETAIL -->
                     <a href="{{ route('students.show', $s->id) }}" 
                       class="px-3 py-1 bg-gradient-to-r from-blue-400/70 to-blue-600/70 
                              hover:from-blue-500 hover:to-blue-400 hover:scale-105 
@@ -146,7 +168,6 @@
                       Detail
                     </a>
 
-                    <!-- EDIT -->
                     <a href="{{ route('students.edit', $s->id) }}" 
                       class="px-3 py-1 bg-gradient-to-r from-yellow-400/70 to-yellow-600/70 
                              hover:from-yellow-500 hover:to-yellow-400 hover:scale-105 
@@ -154,7 +175,6 @@
                       Edit
                     </a>
 
-                    <!-- DELETE -->
                     <form action="{{ route('students.destroy', $s->id) }}" 
                           method="POST" 
                           onsubmit="return confirm('Yakin ingin menghapus data siswa ini?')">
@@ -167,13 +187,12 @@
                         Hapus
                       </button>
                     </form>
-
                   </div>
                 </td>
               </tr>
               @empty
               <tr>
-                <td colspan="7" class="text-center py-4 text-white/80">Belum ada data siswa.</td>
+                <td colspan="10" class="text-center py-4 text-white/80">Belum ada data siswa.</td>
               </tr>
               @endforelse
             </tbody>
@@ -181,11 +200,7 @@
         </div>
       </main>
 
-      <!-- FOOTER -->
-      <footer class="w-full text-center text-white/70 text-sm py-4 border-t border-white/20 bg-white/10 backdrop-blur-xl">
-        © {{ date('Y') }} ABSENSIKU - Sistem Absensi Sekolah
-      </footer>
-
+      @include('layouts.footer')
     </div>
   </div>
 </body>
