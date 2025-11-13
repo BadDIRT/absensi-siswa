@@ -2,63 +2,99 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Teacher;
 use Illuminate\Http\Request;
 
 class TeacherCrudController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Tampilkan daftar semua guru.
      */
     public function index()
     {
-        //
+        $teachers = Teacher::latest()->get();
+        return view('admin.teachers.index', compact('teachers'));
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Tampilkan form tambah guru.
      */
     public function create()
     {
-        //
+        return view('admin.teachers.create');
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Simpan data guru baru.
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'name'          => 'required|string|max:255',
+            'nip'           => 'nullable|string|max:50|unique:teachers,nip',
+            'gender'        => 'nullable|in:L,P',
+            'phone_number'  => 'nullable|string|max:20',
+        ], [
+            'name.required' => 'Nama guru wajib diisi.',
+            'nip.unique'    => 'NIP sudah terdaftar.',
+            'gender.in'     => 'Jenis kelamin harus L (Laki-laki) atau P (Perempuan).',
+            'phone_number.string' => 'Nomor telepon harus berupa teks.',
+            'phone_number.max' => 'Nomor telepon maksimal 20 karakter.',
+        ]);
+
+        Teacher::create($validated);
+
+        return redirect()->route('teachers.index')
+            ->with('success', 'Data guru berhasil ditambahkan!');
     }
 
     /**
-     * Display the specified resource.
+     * Tampilkan detail guru.
      */
-    public function show(string $id)
+    public function show(Teacher $teacher)
     {
-        //
+        $teacher->load('classes');
+        return view('admin.teachers.show', compact('teacher'));
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Tampilkan form edit guru.
      */
-    public function edit(string $id)
+    public function edit(Teacher $teacher)
     {
-        //
+        return view('admin.teachers.edit', compact('teacher'));
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update data guru.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Teacher $teacher)
     {
-        //
+        $validated = $request->validate([
+            'name'          => 'required|string|max:255',
+            'nip'           => 'nullable|string|max:50|unique:teachers,nip,' . $teacher->id,
+            'gender'        => 'nullable|in:L,P',
+            'phone_number'  => 'nullable|string|max:20',
+        ], [
+            'name.required' => 'Nama guru wajib diisi.',
+            'nip.unique'    => 'NIP sudah terdaftar.',
+            'gender.in'     => 'Jenis kelamin harus L (Laki-laki) atau P (Perempuan).',
+        ]);
+
+        $teacher->update($validated);
+
+        return redirect()->route('teachers.index')
+            ->with('success', 'Data guru berhasil diperbarui!');
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Hapus data guru.
      */
-    public function destroy(string $id)
+    public function destroy(Teacher $teacher)
     {
-        //
+        $teacher->delete();
+
+        return redirect()->route('teachers.index')
+            ->with('success', 'Data guru berhasil dihapus!');
     }
 }

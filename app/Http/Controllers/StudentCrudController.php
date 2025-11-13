@@ -99,6 +99,7 @@ class StudentCrudController extends Controller
             'nipd' => 'required|numeric|unique:students,nipd,' . $student->id,
             'class_id' => 'required|exists:classes,id',
             'department_id' => 'required|exists:departments,id',
+            'address' => 'nullable|string|max:500',
         ], [
             'name.required' => 'Nama siswa wajib diisi.',
             'gender.required' => 'Jenis kelamin wajib dipilih.',
@@ -107,6 +108,14 @@ class StudentCrudController extends Controller
             'nipd.required' => 'NIPD wajib diisi.',
             'class_id.required' => 'Kelas wajib dipilih.',
             'department_id.required' => 'Jurusan wajib dipilih.',
+            'address.string' => 'Alamat harus berupa teks.',
+            'address.max' => 'Alamat maksimal 500 karakter.',
+            'nisn.unique' => 'NISN sudah terdaftar.',
+            'nipd.unique' => 'NIPD sudah terdaftar.',
+            'gender.in' => 'Jenis kelamin harus L atau P.',
+            'date_of_birth.date' => 'Tanggal lahir tidak valid.',
+            'class_id.exists' => 'Kelas yang dipilih tidak valid.',
+            'department_id.exists' => 'Jurusan yang dipilih tidak valid.',
         ]);
 
         $student->update($validated);

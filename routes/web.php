@@ -11,6 +11,7 @@ use App\Http\Controllers\UserCrudController;
 use App\Http\Controllers\ClassCrudController;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\StudentCrudController;
+use App\Http\Controllers\SubjectCrudController;
 use App\Http\Controllers\TeacherCrudController;
 use App\Http\Controllers\AttendanceCrudController;
 use App\Http\Controllers\DepartmentCrudController;
@@ -48,4 +49,5 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
     Route::resource('teachers', TeacherCrudController::class);
     Route::resource('users', UserCrudController::class);
     Route::resource('attendances', AttendanceCrudController::class);
+    Route::resource('subjects', SubjectCrudController::class);
 });

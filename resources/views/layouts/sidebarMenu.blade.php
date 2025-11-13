@@ -71,6 +71,16 @@
             ⏱️ Data Kehadiran
           </a>
 
+          <!-- DATA MATA PELAJARAN -->
+          <a href="{{ route('subjects.index') }}" 
+             class="block px-4 py-2 rounded-xl 
+                    {{ request()->routeIs('attendances.*') 
+                        ? 'bg-gradient-to-r from-blue-500/70 to-indigo-500/70 text-white shadow-lg' 
+                        : 'bg-white/10 text-white/80 hover:bg-gradient-to-r hover:from-blue-400/40 hover:to-indigo-400/40 hover:text-white' }}
+                    transition-all duration-300 ease-out transform hover:scale-105">
+             📚 Data Mata Pelajaran
+          </a>
+
           <!-- PENGATURAN -->
           <a href="#" 
              class="block px-4 py-2 rounded-xl 

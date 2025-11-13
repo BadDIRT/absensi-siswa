@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ABSENSIKU - Detail Siswa/i</title>
+  <title>ABSENSIKU - Detail Guru</title>
 
   <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.15.1/dist/cdn.min.js"></script>
   @vite('resources/css/app.css')
@@ -52,10 +52,10 @@
         <div class="flex items-center gap-3">
           <button @click="sidebarOpen = !sidebarOpen" class="text-white text-2xl font-bold">☰</button>
           <img src="/images/absensiku-logo.png" class="hidden lg:block w-10 h-10 drop-shadow-xl">
-          <h1 class="text-2xl font-bold text-white drop-shadow">Detail Siswa/i</h1>
+          <h1 class="text-2xl font-bold text-white drop-shadow">Detail Guru</h1>
         </div>
 
-        <a href="{{ route('students.index') }}" 
+        <a href="{{ route('teachers.index') }}" 
           class="px-4 py-2 backdrop-blur-xl hover:scale-105 hover:shadow-lg 
                  text-white rounded-xl transition-all duration-300 font-semibold">
           Kembali
@@ -68,7 +68,7 @@
              x-data="{ loaded: false }"
              x-init="setTimeout(() => loaded = true, 200)">
 
-          <h2 class="text-3xl font-bold mb-8 text-center drop-shadow-md">👤 Detail Siswa/i</h2>
+          <h2 class="text-3xl font-bold mb-8 text-center drop-shadow-md">👨‍🏫 Detail Guru</h2>
 
           <!-- INFO LIST -->
           <div class="relative pl-6 space-y-6">
@@ -76,14 +76,11 @@
 
             @php
               $fields = [
-                'Nama Lengkap' => $student->name,
-                'Jenis Kelamin' => $student->gender === 'L' ? 'Laki-laki' : 'Perempuan',
-                'Tanggal Lahir' => \Carbon\Carbon::parse($student->date_of_birth)->translatedFormat('d F Y'),
-                'NISN' => $student->nisn,
-                'NIPD' => $student->nipd,
-                'Kelas' => $student->class->grade ?? '-',
-                'Jurusan' => $student->department->name ?? '-',
-                'Alamat' => $student->address ?? '-',
+                'Nama Lengkap' => $teacher->name,
+                'NIP' => $teacher->nip ?? '-',
+                'Jenis Kelamin' => $teacher->gender === 'L' ? 'Laki-laki' : 'Perempuan',
+                'No. Telepon' => $teacher->phone_number ?? '-',
+                'Kelas yang Diampu' => $teacher->classes->pluck('grade')->join(', ') ?: '-',
               ];
             @endphp
 
@@ -101,20 +98,20 @@
           <!-- TIMESTAMP INFO -->
           <div x-show="loaded" x-transition.delay.700ms 
                class="mt-10 p-4 rounded-xl bg-white/20 border border-white/30 shadow-inner text-sm text-white/90 fade-up">
-            <p><span class="font-semibold">📅 Dibuat pada:</span> {{ $student->created_at->translatedFormat('d F Y, H:i') }}</p>
-            <p><span class="font-semibold">🕒 Terakhir diperbarui:</span> {{ $student->updated_at->translatedFormat('d F Y, H:i') }}</p>
+            <p><span class="font-semibold">📅 Dibuat pada:</span> {{ $teacher->created_at->translatedFormat('d F Y, H:i') }}</p>
+            <p><span class="font-semibold">🕒 Terakhir diperbarui:</span> {{ $teacher->updated_at->translatedFormat('d F Y, H:i') }}</p>
           </div>
 
           <!-- ACTION BUTTONS -->
           <div x-show="loaded" x-transition.delay.800ms class="mt-8 flex justify-center gap-4 fade-up">
-            <a href="{{ route('students.edit', $student->id) }}"
+            <a href="{{ route('teachers.edit', $teacher->id) }}"
                class="px-6 py-2 bg-gradient-to-r from-yellow-400/70 to-yellow-600/70 hover:scale-105 
                       text-white rounded-xl font-semibold shadow-lg transition-all duration-300">
               Edit
             </a>
 
-            <form action="{{ route('students.destroy', $student->id) }}" method="POST"
-                  onsubmit="return confirm('Yakin ingin menghapus siswa ini?')">
+            <form action="{{ route('teachers.destroy', $teacher->id) }}" method="POST"
+                  onsubmit="return confirm('Yakin ingin menghapus guru ini?')">
               @csrf
               @method('DELETE')
               <button class="px-6 py-2 bg-gradient-to-r from-red-400/70 to-red-600/70 hover:scale-105 

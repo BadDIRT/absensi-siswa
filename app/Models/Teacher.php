@@ -8,15 +8,21 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Teacher extends Model
 {
-    protected $fillable = ['user_id', 'name', 'nip', 'gender', 'phone_number'];
+    protected $fillable = ['name', 'nip', 'gender', 'phone_number', 'timestamps'];
+    
 
-    public function user(): BelongsTo
+    public function classes(): HasMany
     {
-        return $this->belongsTo(User::class);
+        return $this->hasMany(SchoolClass::class, 'teacher_id');
     }
 
-    public function homeroomOf(): HasMany
+    public function headedDepartment(): HasMany
     {
-        return $this->hasMany(SchoolClass::class, 'homeroom_teacher_id');
+        return $this->hasMany(Department::class, 'head_teacher_id');
+    }
+
+    public function subjects(): HasMany
+    {
+        return $this->hasMany(Subject::class);
     }
 }

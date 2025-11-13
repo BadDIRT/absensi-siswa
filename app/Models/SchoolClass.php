@@ -10,16 +10,16 @@ class SchoolClass extends Model
 {
     protected $table = 'classes';
 
-    protected $fillable = ['department_id', 'grade', 'homeroom_teacher_id'];
+    protected $fillable = ['department_id', 'grade', 'teacher_id'];
 
     public function department(): BelongsTo
     {
         return $this->belongsTo(Department::class);
     }
 
-    public function homeroomTeacher(): BelongsTo
+    public function teacher(): BelongsTo
     {
-        return $this->belongsTo(Teacher::class, 'homeroom_teacher_id');
+        return $this->belongsTo(Teacher::class, 'teacher_id');
     }
 
     public function students(): HasMany

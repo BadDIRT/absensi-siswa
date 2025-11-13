@@ -14,7 +14,7 @@ class ClassSeeder extends Seeder
      */
     public function run(): void
     {
-        $teachers = SchoolClass::pluck('homeroom_teacher_id')->toArray();
+        $teachers = SchoolClass::pluck('teacher_id')->toArray();
 
         $teacherIds = \App\Models\Teacher::pluck('id')->toArray();
     $departments = Department::pluck('id')->toArray();
@@ -23,21 +23,21 @@ class ClassSeeder extends Seeder
         [
             'department_id' => collect($departments)->random(),
             'grade' => 10,
-            'homeroom_teacher_id' => collect($teacherIds)->random(),
+            'teacher_id' => collect($teacherIds)->random(),
             'created_at' => now(),
             'updated_at' => now(),
         ],
         [
             'department_id' => collect($departments)->random(),
             'grade' => 11,
-            'homeroom_teacher_id' => collect($teacherIds)->random(),
+            'teacher_id' => collect($teacherIds)->random(),
             'created_at' => now(),
             'updated_at' => now(),
         ],
         [
             'department_id' => collect($departments)->random(),
             'grade' => 12,
-            'homeroom_teacher_id' => collect($teacherIds)->random(),
+            'teacher_id' => collect($teacherIds)->random(),
             'created_at' => now(),
             'updated_at' => now(),
         ],

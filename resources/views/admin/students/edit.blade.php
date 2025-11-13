@@ -9,7 +9,7 @@
   @vite('resources/css/app.css')
 </head>
 
-<body class="min-h-screen flex flex-col bg-gradient-to-r from-blue-600 to-red-500 text-gray-900">
+<body class="min-h-screen flex flex-col @include('layouts.bgColor') text-gray-900">
   <div class="flex flex-1">
 
     <!-- OVERLAY -->
