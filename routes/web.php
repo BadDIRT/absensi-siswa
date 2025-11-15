@@ -13,6 +13,7 @@ use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\StudentCrudController;
 use App\Http\Controllers\SubjectCrudController;
 use App\Http\Controllers\TeacherCrudController;
+use App\Http\Controllers\TimetableCrudController;
 use App\Http\Controllers\AttendanceCrudController;
 use App\Http\Controllers\DepartmentCrudController;
 
@@ -50,4 +51,5 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
     Route::resource('users', UserCrudController::class);
     Route::resource('attendances', AttendanceCrudController::class);
     Route::resource('subjects', SubjectCrudController::class);
+    Route::resource('timetables', TimetableCrudController::class);
 });

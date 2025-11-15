@@ -1,1 +1,1 @@
-bg-gradient-to-br from-blue-600 via-blue-400 to-blue-200
+bg-gradient-to-br from-violet-600 via-violet-400 to-violet-200

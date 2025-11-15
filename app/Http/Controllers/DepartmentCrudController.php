@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Timetable;
 use App\Models\Department;
 use Illuminate\Http\Request;
 
