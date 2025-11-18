@@ -61,15 +61,7 @@
             Menghasilkan kode batang
           </a>
 
-          <form method="POST" action="{{ route('logout') }}">
-            @csrf
-            <button 
-              class="px-4 py-2 backdrop-blur-lg rounded-xl 
-                      hover:scale-105 hover:shadow-lg 
-                     text-white transition-all duration-300 font-semibold text-sm sm:text-base">
-              Keluar
-            </button>
-          </form>
+          
         </div>
       </header>
 
@@ -119,6 +111,15 @@
   <div class="bg-white/30 backdrop-blur-xl border border-white/20 rounded-2xl shadow-xl p-6 overflow-x-auto">
     <div class="flex justify-between items-center mb-4">
       <h2 class="text-xl font-bold text-white">Absensi Hari Ini</h2>
+
+      <a href="{{ route('barcode.scan') }}" 
+            class="px-4 py-2 backdrop-blur-lg rounded-xl 
+                    hover:scale-105 hover:shadow-lg 
+                   text-white transition-all duration-300
+                    font-semibold text-sm sm:text-base
+                    ">
+            Rekap Absen
+          </a>
     </div>
 
     <table class="w-full text-white min-w-[800px] text-sm sm:text-base">
@@ -130,7 +131,6 @@
           <th class="p-3">Jam Absen</th>
           <th class="p-3">Guru Piket</th>
           <th class="p-3 text-center">Barcode</th>
-          <th class="p-3 text-center">Aksi</th>
         </tr>
       </thead>
 
@@ -159,36 +159,6 @@
                 <span class="text-white/60 italic">Belum ada</span>
               @endif
             </td>
-
-            <!-- ✅ Tombol Aksi -->
-            <td class="p-3 text-center">
-              <div class="flex flex-wrap justify-center gap-2">
-                <a href="{{ route('attendances.show', $attendance->id) }}"
-                   class="px-3 py-1 bg-gradient-to-r from-blue-400/70 to-blue-600/70
-                          hover:from-blue-500 hover:to-blue-400 hover:scale-105
-                          hover:shadow-md text-white rounded-lg font-semibold transition-all duration-300">
-                  Detail
-                </a>
-
-                <a href="{{ route('attendances.edit', $attendance->id) }}"
-                   class="px-3 py-1 bg-gradient-to-r from-yellow-400/70 to-yellow-600/70
-                          hover:from-yellow-500 hover:to-yellow-400 hover:scale-105
-                          hover:shadow-md text-white rounded-lg font-semibold transition-all duration-300">
-                  Edit
-                </a>
-
-                <form action="{{ route('attendances.destroy', $attendance->id) }}"
-                      method="POST"
-                      class="inline"
-                      onsubmit="return confirm('Hapus data ini?')">
-                  @csrf
-                  @method('DELETE')
-                  <button
-                    class="px-3 py-1 bg-gradient-to-r from-red-400/70 to-red-600/70
-                           hover:from-red-500 hover:to-red-400 hover:scale-105
-                           hover:shadow-md text-white rounded-lg font-semibold transition-all duration-300">
-                    Hapus
-                  </button>
                 </form>
               </div>
             </td>
