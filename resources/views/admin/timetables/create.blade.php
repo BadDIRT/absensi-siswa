@@ -9,7 +9,7 @@
     @vite('resources/css/app.css')
 </head>
 
-<body class="min-h-screen flex flex-col @include('layouts.bgColor') text-white">
+<body class="min-h-screen flex flex-col @include('layouts.components._bgColor') text-white">
 <div class="flex flex-1">
 
     <!-- OVERLAY -->
@@ -17,7 +17,7 @@
          class="fixed inset-0 bg-black/40 backdrop-blur-md z-40"></div>
 
     <!-- SIDEBAR -->
-    @include('layouts.sidebar')
+    @include('layouts.components._sidebar')
 
     <div class="p-4 sm:p-6 w-full">
 
@@ -28,7 +28,7 @@
         </div>
 
         <!-- MENU -->
-        @include('layouts.sidebarMenu')
+        @include('layouts.components._sidebarMenu')
 
         <div class="flex-1 flex flex-col transition-all duration-300">
 
@@ -200,7 +200,7 @@
 
             </main>
 
-            @include('layouts.footer')
+            @include('layouts.components._footer')
 
         </div>
 

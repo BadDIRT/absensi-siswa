@@ -13,14 +13,53 @@ class TimetableCrudController extends Controller
     /**
      * Tampilkan daftar semua jadwal.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $timetables = Timetable::with(['class', 'teacher', 'subject'])
-            ->orderBy('day')
-            ->orderBy('start_time')
-            ->get();
+        $query = Timetable::with(['teacher', 'class']);
 
-        return view('admin.timetables.index', compact('timetables'));
+    // SEARCH (pencarian umum)
+    if ($request->search) {
+        $query->where(function($q) use ($request) {
+            $q->where('day', 'like', '%' . $request->search . '%')
+              ->orWhere('start_time', 'like', '%' . $request->search . '%')
+              ->orWhere('end_time', 'like', '%' . $request->search . '%')
+              ->orWhereHas('teacher', function($t) use ($request) {
+                  $t->where('name', 'like', '%' . $request->search . '%');
+              })
+              ->orWhereHas('class', function($c) use ($request) {
+                  $c->where('grade', 'like', '%' . $request->search . '%');
+              });
+        });
+    }
+
+    // FILTER BERDASARKAN FIELD
+    if ($request->filter_field && $request->filter_value) {
+        if ($request->filter_field === 'teacher') {
+            $query->whereHas('teacher', function($t) use ($request) {
+                $t->where('name', 'like', '%' . $request->filter_value . '%');
+            });
+        } elseif ($request->filter_field === 'class') {
+            $query->whereHas('class', function($c) use ($request) {
+                $c->where('grade', 'like', '%' . $request->filter_value . '%');
+            });
+        } else {
+            $query->where($request->filter_field, 'like', '%' . $request->filter_value . '%');
+        }
+    }
+
+    if ($request->sort_order == 'latest') {
+        $query->orderBy('created_at', 'desc');
+    }
+
+    if ($request->sort_order == 'oldest') {
+        $query->orderBy('created_at', 'asc');
+    }
+
+
+    // PAGINATION 20 DATA
+    $timetables = $query->paginate(10)->withQueryString();
+
+    return view('admin.timetables.index', compact('timetables'));
     }
 
     /**
