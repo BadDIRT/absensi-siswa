@@ -67,7 +67,7 @@
                                 <label class="text-sm text-white/70">Filter Berdasarkan</label>
                                 <select name="filter_field"
                                     class="px-4 py-3 rounded-xl bg-white/20 backdrop-blur-xl text-white border border-white/30 focus:ring-2 focus:ring-white/40 transition">
-                                    <option value="">— Pilih Filter —</option>
+                                    <option value="" class="text-black">— Pilih Filter —</option>
                                     @yield('searching')
                                 </select>
                             </div>

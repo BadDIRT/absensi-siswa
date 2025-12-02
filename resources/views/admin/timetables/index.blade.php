@@ -6,11 +6,11 @@
 @section('createButtonText', '+ Tambah Jadwal')
 
 @section('searching')
-    <option value="day" {{ request('filter_field') == 'day' ? 'selected' : '' }}>Hari</option>
-    <option value="teacher" {{ request('filter_field') == 'teacher' ? 'selected' : '' }}>Guru</option>
-    <option value="class" {{ request('filter_field') == 'class' ? 'selected' : '' }}>Kelas</option>
-    <option value="start_time" {{ request('filter_field') == 'start_time' ? 'selected' : '' }}>Jam Mulai</option>
-    <option value="end_time" {{ request('filter_field') == 'end_time' ? 'selected' : '' }}>Jam Selesai</option>
+    <option value="day" class="text-black" {{ request('filter_field') == 'day' ? 'selected' : '' }}>Hari</option>
+    <option value="teacher" class="text-black" {{ request('filter_field') == 'teacher' ? 'selected' : '' }}>Guru</option>
+    <option value="class" class="text-black" {{ request('filter_field') == 'class' ? 'selected' : '' }}>Kelas</option>
+    <option value="start_time" class="text-black" {{ request('filter_field') == 'start_time' ? 'selected' : '' }}>Jam Mulai</option>
+    <option value="end_time" class="text-black" {{ request('filter_field') == 'end_time' ? 'selected' : '' }}>Jam Selesai</option>
 @endsection
 
 @section('title', 'Daftar Jadwal Pelajaran')
@@ -40,23 +40,9 @@
             <td class="p-3 text-center">
                 <div class="flex gap-2 justify-center">
                     <a href="{{ route('timetables.show', $t->id) }}"
-                        class="px-3 py-1 bg-blue-500/40 hover:bg-blue-500/60 border border-white/20 rounded-lg font-semibold transition">
+                        class="px-16 py-1 bg-blue-500/40 hover:bg-blue-500/60 border border-white/20 rounded-lg font-semibold transition">
                         Detail
                     </a>
-
-                    <a href="{{ route('timetables.edit', $t->id) }}"
-                        class="px-3 py-1 bg-yellow-500/40 hover:bg-yellow-500/60 border border-white/20 rounded-lg font-semibold transition">
-                        Edit
-                    </a>
-
-                    <form action="{{ route('timetables.destroy', $t->id) }}" method="POST"
-                        onsubmit="return confirm('Yakin ingin menghapus jadwal ini?')">
-                        @csrf @method('DELETE')
-                        <button
-                            class="px-3 py-1 bg-red-500/40 hover:bg-red-500/60 border border-white/20 rounded-lg font-semibold transition">
-                            Hapus
-                        </button>
-                    </form>
                 </div>
             </td>
         </tr>
@@ -98,20 +84,6 @@
                     class="px-4 py-3 bg-blue-500/40 border border-white/20 rounded-xl font-semibold text-center">
                     Detail
                 </a>
-
-                <a href="{{ route('timetables.edit', $t->id) }}"
-                    class="px-4 py-3 bg-yellow-500/40 border border-white/20 rounded-xl font-semibold text-center">
-                    Edit
-                </a>
-
-                <form action="{{ route('timetables.destroy', $t->id) }}" method="POST"
-                        onsubmit="return confirm('Yakin ingin menghapus jadwal ini?')">
-                    @csrf @method('DELETE')
-                    <button
-                        class="px-4 py-3 bg-red-500/40 border border-white/20 rounded-xl font-semibold w-full">
-                        Hapus
-                    </button>
-                </form>
             </div>
 
         </div>

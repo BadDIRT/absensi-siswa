@@ -9,7 +9,7 @@
   @vite('resources/css/app.css')
 </head>
 
-<body class="min-h-screen flex flex-col @include('layouts.bgColor') text-gray-900">
+<body class="min-h-screen flex flex-col @include('layouts.components._bgColor') text-gray-900">
 
   <div class="flex flex-1">
 
@@ -21,7 +21,7 @@
       class="fixed inset-0 bg-black/40 backdrop-blur-sm z-40">
     </div>
 
-    @include('layouts.sidebar')
+    @include('layouts.components._sidebar')
 
       <!-- TOP CONTENT -->
       <div class="p-6">
@@ -30,7 +30,7 @@
           <h2 class="text-2xl font-bold text-white drop-shadow">ABSENSIKU</h2>
         </div>
 
-        @include('layouts.sidebarMenu')
+        @include('layouts.components._sidebarMenu')
 
     <!-- MAIN WRAPPER -->
     <div class="flex-1 flex flex-col transition-all duration-300">
@@ -173,7 +173,7 @@
         @yield('content')
       </main>
 
-      @include('layouts.footer')
+      @include('layouts.components._footer')
     </div>
   </div>
 </body>

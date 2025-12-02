@@ -8,7 +8,7 @@
   <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.15.1/dist/cdn.min.js"></script>
 </head>
 
-<body class="min-h-screen flex items-center justify-center @include('layouts.bgColor') relative overflow-hidden">
+<body class="min-h-screen flex items-center justify-center @include('layouts.components._bgColor') relative overflow-hidden">
 
     <!-- SPLASH SCREEN -->
 <div 
@@ -21,7 +21,7 @@
     x-transition:leave="transition ease-in duration-500"
     x-transition:leave-start="opacity-100 scale-100"
     x-transition:leave-end="opacity-0 scale-90"
-    class="fixed inset-0 z-[9999] flex flex-col items-center justify-center @include('layouts.bgColor')"
+    class="fixed inset-0 z-[9999] flex flex-col items-center justify-center @include('layouts.components._bgColor')"
 >
     <img
         src="{{ asset('images/absensiku-logo.png') }}"
