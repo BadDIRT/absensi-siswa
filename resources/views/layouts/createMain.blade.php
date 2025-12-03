@@ -1,10 +1,9 @@
 <!DOCTYPE html>
-<html lang="id" x-data="{ sidebarOpen: false, confirmDelete: false }">
+<html lang="id" x-data="{ sidebarOpen: false }">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    
-    <title>@yield('title')</title>
+    <title>@yield('title') - ABSENSIKU</title>
 
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.15.1/dist/cdn.min.js"></script>
     @vite('resources/css/app.css')
@@ -45,9 +44,6 @@
 
     </div>
 </div>
-
-{{-- MODAL (opsional) --}}
-@yield('modal')
 
 </body>
 </html>
