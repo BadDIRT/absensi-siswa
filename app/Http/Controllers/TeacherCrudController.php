@@ -10,9 +10,41 @@ class TeacherCrudController extends Controller
     /**
      * Tampilkan daftar semua guru.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $teachers = Teacher::latest()->get();
+        $query = Teacher::query();
+
+        // SEARCH (pencarian umum)
+        if ($request->search) {
+            $query->where(function($q) use ($request) {
+                $q->where('name', 'like', '%' . $request->search . '%')
+                  ->orWhere('nip', 'like', '%' . $request->search . '%')
+                  ->orWhere('gender', 'like', '%' . $request->search . '%')
+                  ->orWhere('phone_number', 'like', '%' . $request->search . '%');
+            });
+        }
+
+        // FILTER BERDASARKAN FIELD
+        if ($request->filter_field && $request->filter_value) {
+            if ($request->filter_field === 'gender') {
+                $query->where('gender', $request->filter_value);
+            } else {
+                $query->where($request->filter_field, 'like', '%' . $request->filter_value . '%');
+            }
+        }
+
+        // SORTING
+        if ($request->sort_order == 'latest') {
+            $query->orderBy('created_at', 'desc');
+        }
+
+        if ($request->sort_order == 'oldest') {
+            $query->orderBy('created_at', 'asc');
+        }
+
+        // PAGINATION
+        $teachers = $query->paginate(10)->withQueryString();
+
         return view('admin.teachers.index', compact('teachers'));
     }
 
@@ -38,8 +70,6 @@ class TeacherCrudController extends Controller
             'name.required' => 'Nama guru wajib diisi.',
             'nip.unique'    => 'NIP sudah terdaftar.',
             'gender.in'     => 'Jenis kelamin harus L (Laki-laki) atau P (Perempuan).',
-            'phone_number.string' => 'Nomor telepon harus berupa teks.',
-            'phone_number.max' => 'Nomor telepon maksimal 20 karakter.',
         ]);
 
         Teacher::create($validated);

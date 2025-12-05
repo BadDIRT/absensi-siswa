@@ -1,1 +1,1 @@
-bg-gradient-to-br from-blue-600 via-violet-600 to-red-600
+bg-gradient-to-br from-gray-600 via-violet-600 to-red-600
