@@ -14,38 +14,39 @@ class TeacherCrudController extends Controller
     {
         $query = Teacher::query();
 
-        // SEARCH (pencarian umum)
-        if ($request->search) {
-            $query->where(function($q) use ($request) {
-                $q->where('name', 'like', '%' . $request->search . '%')
-                  ->orWhere('nip', 'like', '%' . $request->search . '%')
-                  ->orWhere('gender', 'like', '%' . $request->search . '%')
-                  ->orWhere('phone_number', 'like', '%' . $request->search . '%');
-            });
+        // SEARCH
+    if ($request->filled('search')) {
+        $query->where(function($q) use ($request) {
+            $value = '%' . $request->search . '%';
+            $q->where('name', 'like', $value)
+              ->orWhere('nip', 'like', $value)
+              ->orWhere('phone_number', 'like', $value);
+        });
+    }
+
+    // FILTER FIELD
+    if ($request->filled('filter_field') && $request->filled('filter_value')) {
+
+        // khusus gender harus exact
+        if ($request->filter_field === 'gender') {
+            $query->where('gender', $request->filter_value);
+        } else {
+            $query->where($request->filter_field, 'like', '%' . $request->filter_value . '%');
         }
+    }
 
-        // FILTER BERDASARKAN FIELD
-        if ($request->filter_field && $request->filter_value) {
-            if ($request->filter_field === 'gender') {
-                $query->where('gender', $request->filter_value);
-            } else {
-                $query->where($request->filter_field, 'like', '%' . $request->filter_value . '%');
-            }
-        }
+    // SORT
+    if ($request->sort_order === 'latest') {
+        $query->orderBy('created_at', 'desc');
+    }
 
-        // SORTING
-        if ($request->sort_order == 'latest') {
-            $query->orderBy('created_at', 'desc');
-        }
+    if ($request->sort_order === 'oldest') {
+        $query->orderBy('created_at', 'asc');
+    }
 
-        if ($request->sort_order == 'oldest') {
-            $query->orderBy('created_at', 'asc');
-        }
+    $teachers = $query->paginate(10)->withQueryString();
 
-        // PAGINATION
-        $teachers = $query->paginate(10)->withQueryString();
-
-        return view('admin.teachers.index', compact('teachers'));
+    return view('admin.teachers.index', compact('teachers'));
     }
 
     /**

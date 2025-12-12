@@ -79,20 +79,6 @@
                    class="px-4 py-3 bg-blue-500/40 border border-white/20 rounded-xl font-semibold text-center">
                     Detail
                 </a>
-
-                <a href="{{ route('teachers.edit', $t->id) }}"
-                   class="px-4 py-3 bg-yellow-500/40 border border-white/20 rounded-xl font-semibold text-center">
-                    Edit
-                </a>
-
-                <form action="{{ route('teachers.destroy', $t->id) }}" method="POST"
-                      onsubmit="return confirm('Yakin ingin menghapus data guru ini?')">
-                    @csrf @method('DELETE')
-                    <button
-                        class="px-4 py-3 bg-red-500/40 border border-white/20 rounded-xl font-semibold w-full">
-                        Hapus
-                    </button>
-                </form>
             </div>
         </div>
 

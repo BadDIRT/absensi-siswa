@@ -1,139 +1,99 @@
-<!DOCTYPE html>
-<html lang="id" x-data="{ sidebarOpen: false, confirmDelete: false }">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ABSENSIKU - Detail Guru</title>
+@extends('layouts.showMain')
 
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.15.1/dist/cdn.min.js"></script>
-    @vite('resources/css/app.css')
-</head>
+@section('title', 'ABSENSIKU - Detail Guru')
 
-<body class="min-h-screen flex flex-col @include('layouts.components._bgColor') text-white">
-<div class="flex flex-1">
+@section('header')
+<header class="sticky top-0 z-40 w-full bg-white/10 backdrop-blur-2xl border-b border-white/10 shadow-xl 
+        p-3 sm:p-4 flex items-center justify-between rounded-2xl">
+    <div class="flex items-center gap-3">
+        <button 
+            @click="sidebarOpen = !sidebarOpen" 
+            class="text-white text-2xl font-bold transform transition duration-300 hover:scale-125 hover:text-blue-300">
+            ☰
+        </button>
+        <h1 class="text-xl sm:text-2xl font-bold drop-shadow">Detail Guru</h1>
+    </div>
+</header>
+@endsection
 
-    <!-- OVERLAY -->
-    <div x-show="sidebarOpen" x-transition.opacity @click="sidebarOpen = false"
-         class="fixed inset-0 bg-black/40 backdrop-blur-md z-40"></div>
 
-    <!-- SIDEBAR -->
-    @include('layouts.components._sidebar')
+@section('content')
 
-    <div class="p-4 sm:p-6 w-full">
+<div class="bg-white/10 backdrop-blur-2xl border border-white/10 rounded-3xl shadow-2xl p-6 sm:p-8 
+            transition-all duration-500 hover:shadow-blue-500/30 hover:shadow-2xl">
 
-        <!-- LOGO -->
-        <div class="flex items-center gap-3 mb-4 sm:mb-6">
-            <img src="/images/absensiku-logo.png" class="w-10 h-10 drop-shadow-xl">
-            <h2 class="text-2xl font-bold drop-shadow">ABSENSIKU</h2>
+    <h2 class="text-lg sm:text-2xl font-bold mb-6">Informasi Jadwal</h2>
+
+    <div class="grid sm:grid-cols-2 gap-6 text-white">
+
+        <div class="bg-white/5 p-4 rounded-2xl border border-white/10">
+            <p class="text-sm opacity-80">Nama Lengkap</p>
+            <p class="text-xl font-bold mt-1">{{ $teacher->name }}</p>
         </div>
 
-        @include('layouts.components._sidebarMenu')
-
-        <div class="flex-1 flex flex-col transition-all duration-300">
-
-            <!-- HEADER -->
-            <header class="sticky top-0 z-40 w-full bg-white/10 backdrop-blur-2xl border-b border-white/10 shadow-xl p-3 sm:p-4 flex items-center justify-between rounded-2xl">
-                <div class="flex items-center gap-3">
-                    <button 
-                        @click="sidebarOpen = !sidebarOpen" 
-                        class="text-white text-2xl font-bold transform transition duration-300 hover:scale-125 hover:text-blue-300"
-                    >
-                        ☰
-                    </button>
-                    <h1 class="text-xl sm:text-2xl font-bold drop-shadow">Detail Guru</h1>
-                </div>
-
-
-            </header>
-
-            <!-- CONTENT -->
-            <main 
-                class="p-2 sm:p-6 space-y-6 flex-1 mt-4"
-                x-transition:enter="ease-out duration-500"
-                x-transition:enter-start="opacity-0 translate-y-3"
-                x-transition:enter-end="opacity-100 translate-y-0"
-            >
-
-                <div class="bg-white/10 backdrop-blur-2xl border border-white/10 rounded-3xl shadow-2xl
-                            p-6 sm:p-8 transition-all duration-500 hover:shadow-blue-500/30 hover:shadow-2xl max-w-2xl mx-auto">
-
-                    <h2 class="text-lg sm:text-2xl font-bold mb-6">Informasi Guru</h2>
-
-                    <div class="grid gap-6 text-white">
-
-                        <div class="bg-white/5 p-4 rounded-2xl border border-white/10">
-                            <p class="text-sm opacity-80">Nama Lengkap</p>
-                            <p class="text-xl font-bold mt-1">{{ $teacher->name }}</p>
-                        </div>
-
-                        <div class="bg-white/5 p-4 rounded-2xl border border-white/10">
-                            <p class="text-sm opacity-80">NIP</p>
-                            <p class="text-xl font-bold mt-1">{{ $teacher->nip ?? '-' }}</p>
-                        </div>
-
-                        <div class="bg-white/5 p-4 rounded-2xl border border-white/10">
-                            <p class="text-sm opacity-80">Jenis Kelamin</p>
-                            <p class="text-xl font-bold mt-1">
-                                {{ $teacher->gender === 'L' ? 'Laki-laki' : 'Perempuan' }}
-                            </p>
-                        </div>
-
-                        <div class="bg-white/5 p-4 rounded-2xl border border-white/10">
-                            <p class="text-sm opacity-80">No. Telepon</p>
-                            <p class="text-xl font-bold mt-1">{{ $teacher->phone_number ?? '-' }}</p>
-                        </div>
-
-                        <div class="bg-white/5 p-4 rounded-2xl border border-white/10">
-                            <p class="text-sm opacity-80">Kelas yang Diampu</p>
-                            <p class="text-xl font-bold mt-1">
-                                {{ $teacher->classes->pluck('grade')->join(', ') ?: '-' }}
-                            </p>
-                        </div>
-                    </div>
-
-                    <!-- TIMESTAMP -->
-                    <div class="mt-8 p-4 rounded-xl bg-white/10 border border-white/20 shadow-inner text-sm text-white/80">
-                        <p><span class="font-semibold">📅 Dibuat pada:</span> {{ $teacher->created_at->translatedFormat('d F Y, H:i') }}</p>
-                        <p><span class="font-semibold">🕒 Terakhir diperbarui:</span> {{ $teacher->updated_at->translatedFormat('d F Y, H:i') }}</p>
-                    </div>
-
-                    <!-- BUTTONS -->
-                    <div class="flex flex-col sm:flex-row gap-3 mt-8">
-
-                                      <a href="{{ route('teachers.index') }}"
-                   class="px-5 py-3 bg-white/20 hover:bg-white/30 border border-white/20 rounded-xl backdrop-blur-xl font-semibold
-                          transition duration-300 transform hover:-translate-y-1 hover:shadow-lg hover:shadow-white/20 text-center">
-                    Kembali
-                </a>
-
-                        <a href="{{ route('teachers.edit', $teacher->id) }}"
-                           class="px-5 py-3 bg-yellow-500/60 hover:bg-yellow-500/80 border border-white/20 rounded-xl font-semibold backdrop-blur-xl text-center
-                                  transition duration-300 transform hover:-translate-y-1 hover:shadow-lg hover:shadow-yellow-500/30">
-                            Edit
-                        </a>
-
-                        <button 
-                            @click="confirmDelete = true"
-                            class="px-5 py-3 bg-red-600/60 hover:bg-red-600/80 border border-white/20 rounded-xl font-semibold backdrop-blur-xl w-full sm:w-auto
-                                   transition duration-300 transform hover:-translate-y-1 hover:shadow-lg hover:shadow-red-500/30">
-                            Hapus
-                        </button>
-
-                    </div>
-
-                </div>
-
-            </main>
-
-            @include('layouts.components._footer')
-
+        <div class="bg-white/5 p-4 rounded-2xl border border-white/10">
+            <p class="text-sm opacity-80">NIP</p>
+            <p class="text-xl font-bold mt-1">{{ $teacher->nip ?? '-' }}</p>
         </div>
+
+        <div class="bg-white/5 p-4 rounded-2xl border border-white/10">
+            <p class="text-sm opacity-80">Jenis Kelamin</p>
+            <p class="text-xl font-bold mt-1">
+                {{ $teacher->gender === 'L' ? 'Laki-laki' : 'Perempuan' }}
+            </p>
+        </div>
+
+        <div class="bg-white/5 p-4 rounded-2xl border border-white/10">
+            <p class="text-sm opacity-80">No. Telepon</p>
+            <p class="text-xl font-bold mt-1">{{ $teacher->phone_number ?? '-' }}</p>
+        </div>
+
+        <div class="bg-white/5 p-4 rounded-2xl border border-white/10">
+            <p class="text-sm opacity-80">Kelas yang Diampu</p>
+            <p class="text-xl font-bold mt-1">
+                {{ $teacher->classes->pluck('grade')->join(', ') ?: '-' }}
+            </p>
+        </div>
+
+    </div>
+
+    {{-- TIMESTAMP --}}
+    <div class="mt-8 p-4 rounded-xl bg-white/10 border border-white/20 shadow-inner text-sm text-white/80">
+        <p><span class="font-semibold">📅 Dibuat pada:</span> {{ $teacher->created_at->translatedFormat('d F Y, H:i') }}</p>
+        <p><span class="font-semibold">🕒 Terakhir diperbarui:</span> {{ $teacher->updated_at->translatedFormat('d F Y, H:i') }}</p>
+    </div>
+
+    {{-- BUTTONS --}}
+    <div class="flex flex-col sm:flex-row gap-3 mt-8">
+
+        <a href="{{ route('teachers.index') }}"
+            class="px-5 py-3 bg-white/20 hover:bg-white/30 border border-white/30 rounded-xl font-semibold text-center backdrop-blur-xl
+                    transition duration-300 transform hover:-translate-y-1 hover:shadow-lg hover:shadow-white/20">
+            Kembali
+        </a>
+
+        <a href="{{ route('teachers.edit', $teacher->id) }}"
+            class="px-5 py-3 bg-yellow-500/60 hover:bg-yellow-500/80 border border-white/20 rounded-xl font-semibold backdrop-blur-xl text-center
+                    transition duration-300 transform hover:-translate-y-1 hover:shadow-lg hover:shadow-yellow-500/30">
+            Edit
+        </a>
+
+        <button 
+            @click="confirmDelete = true"
+            class="px-5 py-3 bg-red-600/60 hover:bg-red-600/80 border border-white/20 rounded-xl font-semibold backdrop-blur-xl w-full sm:w-auto
+                    transition duration-300 transform hover:-translate-y-1 hover:shadow-lg hover:shadow-red-500/30">
+            Hapus
+        </button>
 
     </div>
 
 </div>
 
-<!-- DELETE MODAL -->
+@endsection
+
+
+@section('modal')
+{{-- DELETE MODAL --}}
 <div 
     x-show="confirmDelete"
     x-transition.opacity
@@ -164,6 +124,4 @@
         </div>
     </div>
 </div>
-
-</body>
-</html>
+@endsection

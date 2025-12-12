@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Timetable;
 use App\Models\Department;
 use Illuminate\Http\Request;
 
@@ -11,9 +10,42 @@ class DepartmentCrudController extends Controller
     /**
      * Tampilkan daftar semua jurusan.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $departments = Department::latest()->get();
+        $query = Department::query();
+
+        // SEARCH (pencarian umum)
+        if ($request->search) {
+            $query->where(function($q) use ($request) {
+                $q->where('name', 'like', '%' . $request->search . '%')
+                  ->orWhere('code', 'like', '%' . $request->search . '%')
+                  ->orWhere('description', 'like', '%' . $request->search . '%');
+            });
+        }
+
+        // FILTER BERDASARKAN FIELD
+        if ($request->filter_field && $request->filter_value) {
+            if ($request->filter_field === 'name') {
+                $query->where('name', 'like', '%' . $request->filter_value . '%');
+            } elseif ($request->filter_field === 'code') {
+                $query->where('code', 'like', '%' . $request->filter_value . '%');
+            } elseif ($request->filter_field === 'description') {
+                $query->where('description', 'like', '%' . $request->filter_value . '%');
+            }
+        }
+
+        // SORTING
+        if ($request->sort_order == 'latest') {
+            $query->orderBy('created_at', 'desc');
+        }
+
+        if ($request->sort_order == 'oldest') {
+            $query->orderBy('created_at', 'asc');
+        }
+
+        // PAGINATION
+        $departments = $query->paginate(10)->withQueryString();
+
         return view('admin.departments.index', compact('departments'));
     }
 
