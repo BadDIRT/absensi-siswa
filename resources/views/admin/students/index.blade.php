@@ -1,209 +1,145 @@
-<!DOCTYPE html>
-<html lang="id" x-data="{ sidebarOpen: false }">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ABSENSIKU - Data Siswa/i</title>
+@extends('layouts.indexMain')
 
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.15.1/dist/cdn.min.js"></script>
-    @vite('resources/css/app.css')
-</head>
+@section('headerTitle', 'ABSENSIKU - Data Siswa/i')
+@section('pageTitle', 'Data Siswa/i')
+@section('routeCreate', route('students.create'))
+@section('createButtonText', '+ Tambah Siswa')
 
-<body class="min-h-screen flex flex-col @include('layouts.bgColor') text-white">
-<div class="flex flex-1">
+@section('searching')
+    <option value="name" class="text-black" {{ request('filter_field') == 'name' ? 'selected' : '' }}>Nama</option>
+    <option value="gender" class="text-black" {{ request('filter_field') == 'gender' ? 'selected' : '' }}>Jenis Kelamin</option>
+    <option value="nisn" class="text-black" {{ request('filter_field') == 'nisn' ? 'selected' : '' }}>NISN</option>
+    <option value="class" class="text-black" {{ request('filter_field') == 'class' ? 'selected' : '' }}>Kelas</option>
+    <option value="department" class="text-black" {{ request('filter_field') == 'department' ? 'selected' : '' }}>Jurusan</option>
+@endsection
 
-    <!-- OVERLAY -->
-    <div x-show="sidebarOpen" x-transition.opacity @click="sidebarOpen = false"
-         class="fixed inset-0 bg-black/40 backdrop-blur-md z-40"></div>
+@section('title', 'Daftar Siswa/i')
 
-    <!-- SIDEBAR -->
-    @include('layouts.sidebar')
+{{-- ================= DESKTOP TABLE ================= --}}
+@section('thead')
+    <th class="p-3">No</th>
+    <th class="p-3">Nama</th>
+    <th class="p-3">JK</th>
+    <th class="p-3">Tanggal Lahir</th>
+    <th class="p-3">NISN</th>
+    <th class="p-3">NIPD</th>
+    <th class="p-3">Alamat</th>
+    <th class="p-3">Kelas</th>
+    <th class="p-3">Jurusan</th>
+    <th class="p-3 text-center">Aksi</th>
+@endsection
 
-    <div class="p-4 sm:p-6 w-full">
+@section('tableRowsData')
+    @forelse($students as $s)
+        <tr class="border-b border-white/10 hover:bg-white/10 transition-all duration-300">
+            <td class="p-3">{{ $loop->iteration }}</td>
+            <td class="p-3">{{ $s->name }}</td>
+            <td class="p-3">{{ $s->gender === 'L' ? 'Laki-laki' : 'Perempuan' }}</td>
+            <td class="p-3">
+                {{ \Carbon\Carbon::parse($s->date_of_birth)->translatedFormat('d F Y') }}
+            </td>
+            <td class="p-3">{{ $s->nisn }}</td>
+            <td class="p-3">{{ $s->nipd }}</td>
+            <td class="p-3">{{ $s->address ?? '-' }}</td>
+            <td class="p-3">{{ $s->class->grade ?? '-' }}</td>
+            <td class="p-3">{{ $s->department->name ?? '-' }}</td>
 
-        <!-- LOGO -->
-        <div class="flex items-center gap-3 mb-4 sm:mb-6">
-            <img src="/images/absensiku-logo.png" class="w-10 h-10 drop-shadow-xl">
-            <h2 class="text-2xl font-bold drop-shadow">ABSENSIKU</h2>
-        </div>
+            <td class="p-3 text-center">
+                <div class="flex gap-2 justify-center">
+                    <a href="{{ route('students.show', $s->id) }}"
+                       class="px-3 py-1 bg-blue-500/40 hover:bg-blue-500/60 border border-white/20 rounded-lg font-semibold transition">
+                        Detail
+                    </a>
 
-        <!-- MENU -->
-        @include('layouts.sidebarMenu')
+                    <a href="{{ route('students.edit', $s->id) }}"
+                       class="px-3 py-1 bg-yellow-500/40 hover:bg-yellow-500/60 border border-white/20 rounded-lg font-semibold transition">
+                        Edit
+                    </a>
 
-        <div class="flex-1 flex flex-col transition-all duration-300">
+                    <form action="{{ route('students.destroy', $s->id) }}" method="POST"
+                          onsubmit="return confirm('Yakin ingin menghapus data siswa ini?')">
+                        @csrf @method('DELETE')
+                        <button
+                            class="px-3 py-1 bg-red-500/40 hover:bg-red-500/60 border border-white/20 rounded-lg font-semibold transition">
+                            Hapus
+                        </button>
+                    </form>
+                </div>
+            </td>
+        </tr>
+    @empty
+        <tr>
+            <td colspan="10" class="text-center py-4 text-white/60">
+                Belum ada data siswa.
+            </td>
+        </tr>
+    @endforelse
+@endsection
 
-            <!-- HEADER -->
-            <header class="sticky top-0 z-40 w-full bg-white/10 backdrop-blur-2xl border-b border-white/10 shadow-xl 
-                           p-3 sm:p-4 flex flex-wrap gap-3 items-center justify-between rounded-2xl">
-                <div class="flex items-center gap-3 w-full sm:w-auto justify-between">
-                    <div class="flex items-center gap-3">
-                        <button @click="sidebarOpen = !sidebarOpen" class="text-white text-2xl font-bold">☰</button>
-                        <img src="/images/absensiku-logo.png" class="hidden lg:block w-10 h-10 drop-shadow-xl">
-                        <h1 class="text-xl sm:text-2xl font-bold drop-shadow">Data Siswa/i</h1>
-                    </div>
+{{-- ================= MOBILE CARD ================= --}}
+@section('tableRowsDataMobile')
+    @forelse($students as $s)
+        <div class="bg-white/10 backdrop-blur-2xl border border-white/10 rounded-2xl p-4 sm:p-5 shadow-2xl">
+
+            <div class="flex justify-between items-center">
+                <h3 class="text-lg sm:text-xl font-bold">{{ $s->name }}</h3>
+                <span class="text-xs sm:text-sm bg-white/10 px-3 py-1 rounded-lg">
+                    {{ $s->gender === 'L' ? 'Laki-laki' : 'Perempuan' }}
+                </span>
+            </div>
+
+            <div class="mt-4 grid grid-cols-2 gap-3 text-sm">
+
+                <div class="flex flex-col bg-white/5 p-3 rounded-xl">
+                    <span class="text-xs opacity-70">📅 Tanggal Lahir</span>
+                    <span class="font-semibold">
+                        {{ \Carbon\Carbon::parse($s->date_of_birth)->translatedFormat('d F Y') }}
+                    </span>
                 </div>
 
-                <a href="{{ route('students.create') }}"
-                   class="px-4 py-2 bg-white/10 backdrop-blur-2xl hover:bg-white/20 border border-white/20 hover:scale-105 
-                          hover:shadow-lg text-white rounded-xl transition-all duration-300 font-semibold w-full sm:w-auto text-center">
-                    + Tambah Siswa
+                <div class="flex flex-col bg-white/5 p-3 rounded-xl">
+                    <span class="text-xs opacity-70">🎓 Kelas</span>
+                    <span class="font-semibold">{{ $s->class->grade ?? '-' }}</span>
+                </div>
+
+                <div class="flex flex-col bg-white/5 p-3 rounded-xl col-span-2">
+                    <span class="text-xs opacity-70">🏫 Jurusan</span>
+                    <span class="font-semibold">{{ $s->department->name ?? '-' }}</span>
+                </div>
+
+                <div class="flex flex-col bg-white/5 p-3 rounded-xl col-span-2">
+                    <span class="text-xs opacity-70">📍 Alamat</span>
+                    <span class="font-semibold">{{ $s->address ?? '-' }}</span>
+                </div>
+            </div>
+
+            <div class="mt-5 grid grid-cols-1 gap-3">
+                <a href="{{ route('students.show', $s->id) }}"
+                   class="px-4 py-3 bg-blue-500/40 border border-white/20 rounded-xl font-semibold text-center">
+                    Detail
                 </a>
-            </header>
 
-            <!-- ALERT -->
-            @if (session('success'))
-                <div x-data="{ show: true }" x-show="show" x-init="setTimeout(() => show = false, 3000)" x-transition
-                     class="mx-2 sm:mx-6 mt-4 flex items-center justify-between bg-green-500/20 backdrop-blur-xl text-white font-semibold px-4 sm:px-6 py-3 rounded-xl shadow-xl border border-white/20">
+                <a href="{{ route('students.edit', $s->id) }}"
+                   class="px-4 py-3 bg-yellow-500/40 border border-white/20 rounded-xl font-semibold text-center">
+                    Edit
+                </a>
 
-                    <div class="flex items-center gap-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none"
-                             viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                  d="M9 12l2 2l4-4m5 2a9 9 0 11-18 0a9 9 0 0118 0z" />
-                        </svg>
-                        <span>{{ session('success') }}</span>
-                    </div>
+                <form action="{{ route('students.destroy', $s->id) }}" method="POST"
+                      onsubmit="return confirm('Yakin ingin menghapus data siswa ini?')">
+                    @csrf @method('DELETE')
+                    <button
+                        class="px-4 py-3 bg-red-500/40 border border-white/20 rounded-xl font-semibold w-full">
+                        Hapus
+                    </button>
+                </form>
+            </div>
 
-                    <button @click="show = false" class="hover:text-white/80 transition">✕</button>
-                </div>
-            @endif
-
-            <main class="p-2 sm:p-6 space-y-4 sm:space-y-8 flex-1 mt-4">
-
-                <div class="bg-white/10 backdrop-blur-2xl border border-white/10 rounded-3xl shadow-2xl p-4 sm:p-6 overflow-x-auto">
-
-                    <h2 class="text-lg sm:text-xl font-bold mb-4 drop-shadow">Daftar Siswa/i</h2>
-
-                    <!-- DESKTOP TABLE -->
-                    <table class="w-full min-w-[1100px] text-white text-xs sm:text-base hidden md:table">
-                        <thead>
-                        <tr class="bg-white/10 border-b border-white/20">
-                            <th class="p-3">No</th>
-                            <th class="p-3">Nama</th>
-                            <th class="p-3">JK</th>
-                            <th class="p-3">Tanggal Lahir</th>
-                            <th class="p-3">NISN</th>
-                            <th class="p-3">NIPD</th>
-                            <th class="p-3">Alamat</th>
-                            <th class="p-3">Kelas</th>
-                            <th class="p-3">Jurusan</th>
-                            <th class="p-3 text-center">Aksi</th>
-                        </tr>
-                        </thead>
-
-                        <tbody>
-                        @forelse($students as $s)
-                            <tr class="border-b border-white/10 hover:bg-white/10 transition-all duration-300">
-                                <td class="p-3">{{ $loop->iteration }}</td>
-                                <td class="p-3">{{ $s->name }}</td>
-                                <td class="p-3">{{ $s->gender === 'L' ? 'Laki-laki' : 'Perempuan' }}</td>
-                                <td class="p-3">{{ \Carbon\Carbon::parse($s->date_of_birth)->translatedFormat('d F Y') }}</td>
-                                <td class="p-3">{{ $s->nisn }}</td>
-                                <td class="p-3">{{ $s->nipd }}</td>
-                                <td class="p-3">{{ $s->address ?? '-' }}</td>
-                                <td class="p-3">{{ $s->class->grade ?? '-' }}</td>
-                                <td class="p-3">{{ $s->department->name ?? '-' }}</td>
-
-                                <td class="p-3 text-center">
-                                    <div class="flex gap-2 justify-center">
-                                        <a href="{{ route('students.show', $s->id) }}"
-                                           class="px-3 py-1 bg-blue-500/40 hover:bg-blue-500/60 backdrop-blur-xl border border-white/20 rounded-lg font-semibold transition">
-                                            Detail
-                                        </a>
-
-                                        <a href="{{ route('students.edit', $s->id) }}"
-                                           class="px-3 py-1 bg-yellow-500/40 hover:bg-yellow-500/60 backdrop-blur-xl border border-white/20 rounded-lg font-semibold transition">
-                                            Edit
-                                        </a>
-
-                                        <form action="{{ route('students.destroy', $s->id) }}" method="POST"
-                                              onsubmit="return confirm('Yakin ingin menghapus data siswa ini?')">
-                                            @csrf @method('DELETE')
-                                            <button
-                                                class="px-3 py-1 bg-red-500/40 hover:bg-red-500/60 backdrop-blur-xl border border-white/20 rounded-lg font-semibold transition">
-                                                Hapus
-                                            </button>
-                                        </form>
-                                    </div>
-                                </td>
-                            </tr>
-                        @empty
-                            <tr>
-                                <td colspan="10" class="text-center py-4 text-white/60">Belum ada data siswa.</td>
-                            </tr>
-                        @endforelse
-                        </tbody>
-                    </table>
-
-                    <!-- MOBILE CARDS FOLLOWING TIMETABLE STYLE -->
-                    <div class="block md:hidden space-y-4 mt-4">
-                        @forelse($students as $s)
-                            <div class="bg-white/10 backdrop-blur-2xl border border-white/10 rounded-2xl p-4 sm:p-5 shadow-2xl">
-
-                                <div class="flex justify-between items-center">
-                                    <h3 class="text-lg sm:text-xl font-bold">{{ $s->name }}</h3>
-                                    <span class="text-xs sm:text-sm bg-white/10 px-3 py-1 rounded-lg">
-                                        {{ $s->gender === 'L' ? 'Laki-laki' : 'Perempuan' }}
-                                    </span>
-                                </div>
-
-                                <div class="mt-4 grid grid-cols-2 gap-3 text-sm">
-
-                                    <div class="flex flex-col bg-white/5 p-3 rounded-xl">
-                                        <span class="text-xs opacity-70">📅 Tanggal Lahir</span>
-                                        <span class="font-semibold">{{ \Carbon\Carbon::parse($s->date_of_birth)->translatedFormat('d F Y') }}</span>
-                                    </div>
-
-                                    <div class="flex flex-col bg-white/5 p-3 rounded-xl">
-                                        <span class="text-xs opacity-70">🎓 Kelas</span>
-                                        <span class="font-semibold">{{ $s->class->grade ?? '-' }}</span>
-                                    </div>
-
-                                    <div class="flex flex-col bg-white/5 p-3 rounded-xl col-span-2">
-                                        <span class="text-xs opacity-70">🏫 Jurusan</span>
-                                        <span class="font-semibold">{{ $s->department->name ?? '-' }}</span>
-                                    </div>
-
-                                    <div class="flex flex-col bg-white/5 p-3 rounded-xl col-span-2">
-                                        <span class="text-xs opacity-70">📍 Alamat</span>
-                                        <span class="font-semibold">{{ $s->address ?? '-' }}</span>
-                                    </div>
-                                </div>
-
-                                <div class="mt-5 grid grid-cols-1 gap-3">
-                                    <a href="{{ route('students.show', $s->id) }}"
-                                       class="px-4 py-3 bg-blue-500/40 backdrop-blur-xl border border-white/20 rounded-xl font-semibold text-center">
-                                        Detail
-                                    </a>
-
-                                    <a href="{{ route('students.edit', $s->id) }}"
-                                       class="px-4 py-3 bg-yellow-500/40 backdrop-blur-xl border border-white/20 rounded-xl font-semibold text-center">
-                                        Edit
-                                    </a>
-
-                                    <form action="{{ route('students.destroy', $s->id) }}" method="POST"
-                                          onsubmit="return confirm('Yakin ingin menghapus data siswa ini?')">
-                                        @csrf @method('DELETE')
-                                        <button
-                                            class="px-4 py-3 bg-red-500/40 backdrop-blur-xl border border-white/20 rounded-xl font-semibold w-full">
-                                            Hapus
-                                        </button>
-                                    </form>
-                                </div>
-
-                            </div>
-                        @empty
-                            <p class="text-center text-white/70">Belum ada data siswa.</p>
-                        @endforelse
-                    </div>
-
-                </div>
-            </main>
-
-            @include('layouts.footer')
         </div>
-    </div>
+    @empty
+        <p class="text-center text-white/70">Belum ada data siswa.</p>
+    @endforelse
+@endsection
 
-</div>
-</body>
-</html>
+@section('pagination')
+    {{ $students->links() }}
+@endsection

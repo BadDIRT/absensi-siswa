@@ -12,11 +12,49 @@ class ClassCrudController extends Controller
     /**
      * Tampilkan daftar semua kelas.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $classes = SchoolClass::with(['department', 'teacher'])
-            ->latest()
-            ->get();
+        $query = SchoolClass::with(['department', 'teacher']);
+
+        // ================= SEARCH (pencarian umum) =================
+        if ($request->search) {
+            $query->where(function ($q) use ($request) {
+                $q->where('grade', 'like', '%' . $request->search . '%')
+                  ->orWhereHas('department', function ($d) use ($request) {
+                      $d->where('name', 'like', '%' . $request->search . '%');
+                  })
+                  ->orWhereHas('teacher', function ($t) use ($request) {
+                      $t->where('name', 'like', '%' . $request->search . '%');
+                  });
+            });
+        }
+
+        // ================= FILTER BERDASARKAN FIELD =================
+        if ($request->filter_field && $request->filter_value) {
+            if ($request->filter_field === 'department') {
+                $query->whereHas('department', function ($d) use ($request) {
+                    $d->where('name', 'like', '%' . $request->filter_value . '%');
+                });
+            } elseif ($request->filter_field === 'teacher') {
+                $query->whereHas('teacher', function ($t) use ($request) {
+                    $t->where('name', 'like', '%' . $request->filter_value . '%');
+                });
+            } else {
+                $query->where($request->filter_field, 'like', '%' . $request->filter_value . '%');
+            }
+        }
+
+        // ================= SORTING =================
+        if ($request->sort_order === 'latest') {
+            $query->orderBy('created_at', 'desc');
+        }
+
+        if ($request->sort_order === 'oldest') {
+            $query->orderBy('created_at', 'asc');
+        }
+
+        // ================= PAGINATION =================
+        $classes = $query->paginate(10)->withQueryString();
 
         return view('admin.classes.index', compact('classes'));
     }

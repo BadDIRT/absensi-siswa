@@ -12,9 +12,55 @@ class StudentCrudController extends Controller
     /**
      * Tampilkan daftar semua siswa.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $students = Student::with(['class', 'department'])->latest()->get();
+        $query = Student::with(['class', 'department']);
+
+        // SEARCH (pencarian umum)
+        if ($request->search) {
+            $query->where(function ($q) use ($request) {
+                $q->where('name', 'like', '%' . $request->search . '%')
+                  ->orWhere('nisn', 'like', '%' . $request->search . '%')
+                  ->orWhere('nipd', 'like', '%' . $request->search . '%')
+                  ->orWhere('gender', 'like', '%' . $request->search . '%')
+                  ->orWhereHas('class', function ($c) use ($request) {
+                      $c->where('grade', 'like', '%' . $request->search . '%');
+                  })
+                  ->orWhereHas('department', function ($d) use ($request) {
+                      $d->where('name', 'like', '%' . $request->search . '%');
+                  });
+            });
+        }
+
+        // FILTER BERDASARKAN FIELD
+        if ($request->filter_field && $request->filter_value) {
+            if ($request->filter_field === 'class') {
+                $query->whereHas('class', function ($c) use ($request) {
+                    $c->where('grade', 'like', '%' . $request->filter_value . '%');
+                });
+            } elseif ($request->filter_field === 'department') {
+                $query->whereHas('department', function ($d) use ($request) {
+                    $d->where('name', 'like', '%' . $request->filter_value . '%');
+                });
+            } elseif ($request->filter_field === 'gender') {
+                $query->where('gender', $request->filter_value);
+            } else {
+                $query->where($request->filter_field, 'like', '%' . $request->filter_value . '%');
+            }
+        }
+
+        // SORTING
+        if ($request->sort_order == 'latest') {
+            $query->orderBy('created_at', 'desc');
+        }
+
+        if ($request->sort_order == 'oldest') {
+            $query->orderBy('created_at', 'asc');
+        }
+
+        // PAGINATION
+        $students = $query->paginate(10)->withQueryString();
+
         return view('admin.students.index', compact('students'));
     }
 
@@ -25,6 +71,7 @@ class StudentCrudController extends Controller
     {
         $classes = SchoolClass::all();
         $departments = Department::all();
+
         return view('admin.students.create', compact('classes', 'departments'));
     }
 
@@ -34,31 +81,29 @@ class StudentCrudController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'gender' => 'required|in:L,P',
-            'date_of_birth' => 'required|date',
-            'nisn' => 'required|numeric|unique:students,nisn',
-            'nipd' => 'required|numeric|unique:students,nipd',
-            'class_id' => 'required|exists:classes,id',
-            'department_id' => 'required|exists:departments,id',
-            'address' => 'nullable|string|max:500',
+            'name'           => 'required|string|max:255',
+            'gender'         => 'required|in:L,P',
+            'date_of_birth'  => 'required|date',
+            'nisn'           => 'required|numeric|unique:students,nisn',
+            'nipd'           => 'required|numeric|unique:students,nipd',
+            'class_id'       => 'required|exists:classes,id',
+            'department_id'  => 'required|exists:departments,id',
+            'address'        => 'nullable|string|max:500',
         ], [
-            // Custom error messages (opsional)
-            'name.required' => 'Nama siswa wajib diisi.',
-            'gender.required' => 'Jenis kelamin wajib dipilih.',
+            'name.required'          => 'Nama siswa wajib diisi.',
+            'gender.required'        => 'Jenis kelamin wajib dipilih.',
+            'gender.in'              => 'Jenis kelamin harus L atau P.',
             'date_of_birth.required' => 'Tanggal lahir wajib diisi.',
-            'nisn.required' => 'NISN wajib diisi.',
-            'nipd.required' => 'NIPD wajib diisi.',
-            'class_id.required' => 'Kelas wajib dipilih.',
+            'date_of_birth.date'     => 'Tanggal lahir tidak valid.',
+            'nisn.required'          => 'NISN wajib diisi.',
+            'nisn.unique'            => 'NISN sudah terdaftar.',
+            'nipd.required'          => 'NIPD wajib diisi.',
+            'nipd.unique'            => 'NIPD sudah terdaftar.',
+            'class_id.required'      => 'Kelas wajib dipilih.',
+            'class_id.exists'        => 'Kelas yang dipilih tidak valid.',
             'department_id.required' => 'Jurusan wajib dipilih.',
-            'address.string' => 'Alamat harus berupa teks.',
-            'address.max' => 'Alamat maksimal 500 karakter.',
-            'nisn.unique' => 'NISN sudah terdaftar.',
-            'nipd.unique' => 'NIPD sudah terdaftar.',
-            'gender.in' => 'Jenis kelamin harus L atau P.',
-            'date_of_birth.date' => 'Tanggal lahir tidak valid.',
-            'class_id.exists' => 'Kelas yang dipilih tidak valid.',
-            'department_id.exists' => 'Jurusan yang dipilih tidak valid.',
+            'department_id.exists'   => 'Jurusan yang dipilih tidak valid.',
+            'address.max'            => 'Alamat maksimal 500 karakter.',
         ]);
 
         Student::create($validated);
@@ -73,6 +118,7 @@ class StudentCrudController extends Controller
     public function show(Student $student)
     {
         $student->load(['class', 'department']);
+
         return view('admin.students.show', compact('student'));
     }
 
@@ -83,6 +129,7 @@ class StudentCrudController extends Controller
     {
         $classes = SchoolClass::all();
         $departments = Department::all();
+
         return view('admin.students.edit', compact('student', 'classes', 'departments'));
     }
 
@@ -92,30 +139,29 @@ class StudentCrudController extends Controller
     public function update(Request $request, Student $student)
     {
         $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'gender' => 'required|in:L,P',
-            'date_of_birth' => 'required|date',
-            'nisn' => 'required|numeric|unique:students,nisn,' . $student->id,
-            'nipd' => 'required|numeric|unique:students,nipd,' . $student->id,
-            'class_id' => 'required|exists:classes,id',
-            'department_id' => 'required|exists:departments,id',
-            'address' => 'nullable|string|max:500',
+            'name'           => 'required|string|max:255',
+            'gender'         => 'required|in:L,P',
+            'date_of_birth'  => 'required|date',
+            'nisn'           => 'required|numeric|unique:students,nisn,' . $student->id,
+            'nipd'           => 'required|numeric|unique:students,nipd,' . $student->id,
+            'class_id'       => 'required|exists:classes,id',
+            'department_id'  => 'required|exists:departments,id',
+            'address'        => 'nullable|string|max:500',
         ], [
-            'name.required' => 'Nama siswa wajib diisi.',
-            'gender.required' => 'Jenis kelamin wajib dipilih.',
+            'name.required'          => 'Nama siswa wajib diisi.',
+            'gender.required'        => 'Jenis kelamin wajib dipilih.',
+            'gender.in'              => 'Jenis kelamin harus L atau P.',
             'date_of_birth.required' => 'Tanggal lahir wajib diisi.',
-            'nisn.required' => 'NISN wajib diisi.',
-            'nipd.required' => 'NIPD wajib diisi.',
-            'class_id.required' => 'Kelas wajib dipilih.',
+            'date_of_birth.date'     => 'Tanggal lahir tidak valid.',
+            'nisn.required'          => 'NISN wajib diisi.',
+            'nisn.unique'            => 'NISN sudah terdaftar.',
+            'nipd.required'          => 'NIPD wajib diisi.',
+            'nipd.unique'            => 'NIPD sudah terdaftar.',
+            'class_id.required'      => 'Kelas wajib dipilih.',
+            'class_id.exists'        => 'Kelas yang dipilih tidak valid.',
             'department_id.required' => 'Jurusan wajib dipilih.',
-            'address.string' => 'Alamat harus berupa teks.',
-            'address.max' => 'Alamat maksimal 500 karakter.',
-            'nisn.unique' => 'NISN sudah terdaftar.',
-            'nipd.unique' => 'NIPD sudah terdaftar.',
-            'gender.in' => 'Jenis kelamin harus L atau P.',
-            'date_of_birth.date' => 'Tanggal lahir tidak valid.',
-            'class_id.exists' => 'Kelas yang dipilih tidak valid.',
-            'department_id.exists' => 'Jurusan yang dipilih tidak valid.',
+            'department_id.exists'   => 'Jurusan yang dipilih tidak valid.',
+            'address.max'            => 'Alamat maksimal 500 karakter.',
         ]);
 
         $student->update($validated);
