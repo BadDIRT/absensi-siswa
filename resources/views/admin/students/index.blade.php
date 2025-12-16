@@ -47,23 +47,9 @@
             <td class="p-3 text-center">
                 <div class="flex gap-2 justify-center">
                     <a href="{{ route('students.show', $s->id) }}"
-                       class="px-3 py-1 bg-blue-500/40 hover:bg-blue-500/60 border border-white/20 rounded-lg font-semibold transition">
+                       class="px-16 py-1 bg-blue-500/40 hover:bg-blue-500/60 border border-white/20 rounded-lg font-semibold transition">
                         Detail
                     </a>
-
-                    <a href="{{ route('students.edit', $s->id) }}"
-                       class="px-3 py-1 bg-yellow-500/40 hover:bg-yellow-500/60 border border-white/20 rounded-lg font-semibold transition">
-                        Edit
-                    </a>
-
-                    <form action="{{ route('students.destroy', $s->id) }}" method="POST"
-                          onsubmit="return confirm('Yakin ingin menghapus data siswa ini?')">
-                        @csrf @method('DELETE')
-                        <button
-                            class="px-3 py-1 bg-red-500/40 hover:bg-red-500/60 border border-white/20 rounded-lg font-semibold transition">
-                            Hapus
-                        </button>
-                    </form>
                 </div>
             </td>
         </tr>
@@ -118,20 +104,6 @@
                    class="px-4 py-3 bg-blue-500/40 border border-white/20 rounded-xl font-semibold text-center">
                     Detail
                 </a>
-
-                <a href="{{ route('students.edit', $s->id) }}"
-                   class="px-4 py-3 bg-yellow-500/40 border border-white/20 rounded-xl font-semibold text-center">
-                    Edit
-                </a>
-
-                <form action="{{ route('students.destroy', $s->id) }}" method="POST"
-                      onsubmit="return confirm('Yakin ingin menghapus data siswa ini?')">
-                    @csrf @method('DELETE')
-                    <button
-                        class="px-4 py-3 bg-red-500/40 border border-white/20 rounded-xl font-semibold w-full">
-                        Hapus
-                    </button>
-                </form>
             </div>
 
         </div>
