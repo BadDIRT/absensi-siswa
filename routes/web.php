@@ -36,11 +36,6 @@ Route::get('/teacher', [TeacherController::class, 'index'])->middleware(['auth',
 // Student Only
 Route::get('/student', [StudentController::class, 'index'])->middleware(['auth', 'role:student']);
 
-Route::resource('attendances', AttendanceController::class);
-Route::get('/barcode', [BarcodeController::class, 'index'])->name('barcode.index');
-Route::post('/barcode/generate', [BarcodeController::class, 'generate'])->name('barcode.generate');
-Route::get('/barcode/scan', [AttendanceController::class, 'scan'])->name('barcode.scan');
-Route::post('/barcode/validate', [AttendanceController::class, 'validateScan'])->name('barcode.validate');
 
 // CRUD Routes for Admin
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
@@ -50,6 +45,4 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
     Route::resource('teachers', TeacherCrudController::class);
     Route::resource('users', UserCrudController::class);
     Route::resource('attendances', AttendanceCrudController::class);
-    Route::resource('subjects', SubjectCrudController::class);
-    Route::resource('timetables', TimetableCrudController::class);
 });

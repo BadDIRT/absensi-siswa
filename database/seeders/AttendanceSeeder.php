@@ -23,6 +23,8 @@ class AttendanceSeeder extends Seeder
                     'time_in' => fake()->time('H:i'),
                     'time_out' => fake()->time('H:i'),
                     'status' => fake()->randomElement(['hadir', 'sakit', 'izin', 'tidak hadir']),
+                    'created_at' => now(),
+                    'updated_at' => now(),
             ],
             [
                     'student_id' => Student::all()->random()->id,
@@ -31,6 +33,8 @@ class AttendanceSeeder extends Seeder
                     'time_in' => fake()->time('H:i'),
                     'time_out' => fake()->time('H:i'),
                     'status' => fake()->randomElement(['hadir', 'sakit', 'izin', 'tidak hadir']),
+                    'created_at' => now(),
+                    'updated_at' => now(),
             ],
             [
                     'student_id' => Student::all()->random()->id,
@@ -39,6 +43,8 @@ class AttendanceSeeder extends Seeder
                     'time_in' => fake()->time('H:i'),
                     'time_out' => fake()->time('H:i'),
                     'status' => fake()->randomElement(['hadir', 'sakit', 'izin', 'tidak hadir']),
+                    'created_at' => now(),
+                    'updated_at' => now(),
             ],
         ]);
     }

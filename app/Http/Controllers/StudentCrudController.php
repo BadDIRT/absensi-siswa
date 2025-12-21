@@ -45,16 +45,20 @@ class StudentCrudController extends Controller
             } elseif ($request->filter_field === 'gender') {
                 $query->where('gender', $request->filter_value);
             } else {
-                $query->where($request->filter_field, 'like', '%' . $request->filter_value . '%');
+                $query->where(
+                    $request->filter_field,
+                    'like',
+                    '%' . $request->filter_value . '%'
+                );
             }
         }
 
         // SORTING
-        if ($request->sort_order == 'latest') {
+        if ($request->sort_order === 'latest') {
             $query->orderBy('created_at', 'desc');
         }
 
-        if ($request->sort_order == 'oldest') {
+        if ($request->sort_order === 'oldest') {
             $query->orderBy('created_at', 'asc');
         }
 
@@ -69,7 +73,7 @@ class StudentCrudController extends Controller
      */
     public function create()
     {
-        $classes = SchoolClass::all();
+        $classes     = SchoolClass::all();
         $departments = Department::all();
 
         return view('admin.students.create', compact('classes', 'departments'));
@@ -80,35 +84,39 @@ class StudentCrudController extends Controller
      */
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'name'           => 'required|string|max:255',
-            'gender'         => 'required|in:L,P',
-            'date_of_birth'  => 'required|date',
-            'nisn'           => 'required|numeric|unique:students,nisn',
-            'nipd'           => 'required|numeric|unique:students,nipd',
-            'class_id'       => 'required|exists:classes,id',
-            'department_id'  => 'required|exists:departments,id',
-            'address'        => 'nullable|string|max:500',
-        ], [
-            'name.required'          => 'Nama siswa wajib diisi.',
-            'gender.required'        => 'Jenis kelamin wajib dipilih.',
-            'gender.in'              => 'Jenis kelamin harus L atau P.',
-            'date_of_birth.required' => 'Tanggal lahir wajib diisi.',
-            'date_of_birth.date'     => 'Tanggal lahir tidak valid.',
-            'nisn.required'          => 'NISN wajib diisi.',
-            'nisn.unique'            => 'NISN sudah terdaftar.',
-            'nipd.required'          => 'NIPD wajib diisi.',
-            'nipd.unique'            => 'NIPD sudah terdaftar.',
-            'class_id.required'      => 'Kelas wajib dipilih.',
-            'class_id.exists'        => 'Kelas yang dipilih tidak valid.',
-            'department_id.required' => 'Jurusan wajib dipilih.',
-            'department_id.exists'   => 'Jurusan yang dipilih tidak valid.',
-            'address.max'            => 'Alamat maksimal 500 karakter.',
-        ]);
+        $validated = $request->validate(
+            [
+                'name'           => 'required|string|max:255',
+                'gender'         => 'required|in:L,P',
+                'date_of_birth'  => 'required|date',
+                'nisn'           => 'required|numeric|unique:students,nisn',
+                'nipd'           => 'required|numeric|unique:students,nipd',
+                'class_id'       => 'required|exists:classes,id',
+                'department_id'  => 'required|exists:departments,id',
+                'address'        => 'nullable|string|max:500',
+            ],
+            [
+                'name.required'          => 'Nama siswa wajib diisi.',
+                'gender.required'        => 'Jenis kelamin wajib dipilih.',
+                'gender.in'              => 'Jenis kelamin harus L atau P.',
+                'date_of_birth.required' => 'Tanggal lahir wajib diisi.',
+                'date_of_birth.date'     => 'Tanggal lahir tidak valid.',
+                'nisn.required'          => 'NISN wajib diisi.',
+                'nisn.unique'            => 'NISN sudah terdaftar.',
+                'nipd.required'          => 'NIPD wajib diisi.',
+                'nipd.unique'            => 'NIPD sudah terdaftar.',
+                'class_id.required'      => 'Kelas wajib dipilih.',
+                'class_id.exists'        => 'Kelas yang dipilih tidak valid.',
+                'department_id.required' => 'Jurusan wajib dipilih.',
+                'department_id.exists'   => 'Jurusan yang dipilih tidak valid.',
+                'address.max'            => 'Alamat maksimal 500 karakter.',
+            ]
+        );
 
         Student::create($validated);
 
-        return redirect()->route('students.index')
+        return redirect()
+            ->route('students.index')
             ->with('success', 'Data siswa berhasil ditambahkan!');
     }
 
@@ -127,10 +135,13 @@ class StudentCrudController extends Controller
      */
     public function edit(Student $student)
     {
-        $classes = SchoolClass::all();
+        $classes     = SchoolClass::all();
         $departments = Department::all();
 
-        return view('admin.students.edit', compact('student', 'classes', 'departments'));
+        return view(
+            'admin.students.edit',
+            compact('student', 'classes', 'departments')
+        );
     }
 
     /**
@@ -138,35 +149,39 @@ class StudentCrudController extends Controller
      */
     public function update(Request $request, Student $student)
     {
-        $validated = $request->validate([
-            'name'           => 'required|string|max:255',
-            'gender'         => 'required|in:L,P',
-            'date_of_birth'  => 'required|date',
-            'nisn'           => 'required|numeric|unique:students,nisn,' . $student->id,
-            'nipd'           => 'required|numeric|unique:students,nipd,' . $student->id,
-            'class_id'       => 'required|exists:classes,id',
-            'department_id'  => 'required|exists:departments,id',
-            'address'        => 'nullable|string|max:500',
-        ], [
-            'name.required'          => 'Nama siswa wajib diisi.',
-            'gender.required'        => 'Jenis kelamin wajib dipilih.',
-            'gender.in'              => 'Jenis kelamin harus L atau P.',
-            'date_of_birth.required' => 'Tanggal lahir wajib diisi.',
-            'date_of_birth.date'     => 'Tanggal lahir tidak valid.',
-            'nisn.required'          => 'NISN wajib diisi.',
-            'nisn.unique'            => 'NISN sudah terdaftar.',
-            'nipd.required'          => 'NIPD wajib diisi.',
-            'nipd.unique'            => 'NIPD sudah terdaftar.',
-            'class_id.required'      => 'Kelas wajib dipilih.',
-            'class_id.exists'        => 'Kelas yang dipilih tidak valid.',
-            'department_id.required' => 'Jurusan wajib dipilih.',
-            'department_id.exists'   => 'Jurusan yang dipilih tidak valid.',
-            'address.max'            => 'Alamat maksimal 500 karakter.',
-        ]);
+        $validated = $request->validate(
+            [
+                'name'           => 'required|string|max:255',
+                'gender'         => 'required|in:L,P',
+                'date_of_birth'  => 'required|date',
+                'nisn'           => 'required|numeric|unique:students,nisn,' . $student->id,
+                'nipd'           => 'required|numeric|unique:students,nipd,' . $student->id,
+                'class_id'       => 'required|exists:classes,id',
+                'department_id'  => 'required|exists:departments,id',
+                'address'        => 'nullable|string|max:500',
+            ],
+            [
+                'name.required'          => 'Nama siswa wajib diisi.',
+                'gender.required'        => 'Jenis kelamin wajib dipilih.',
+                'gender.in'              => 'Jenis kelamin harus L atau P.',
+                'date_of_birth.required' => 'Tanggal lahir wajib diisi.',
+                'date_of_birth.date'     => 'Tanggal lahir tidak valid.',
+                'nisn.required'          => 'NISN wajib diisi.',
+                'nisn.unique'            => 'NISN sudah terdaftar.',
+                'nipd.required'          => 'NIPD wajib diisi.',
+                'nipd.unique'            => 'NIPD sudah terdaftar.',
+                'class_id.required'      => 'Kelas wajib dipilih.',
+                'class_id.exists'        => 'Kelas yang dipilih tidak valid.',
+                'department_id.required' => 'Jurusan wajib dipilih.',
+                'department_id.exists'   => 'Jurusan yang dipilih tidak valid.',
+                'address.max'            => 'Alamat maksimal 500 karakter.',
+            ]
+        );
 
         $student->update($validated);
 
-        return redirect()->route('students.index')
+        return redirect()
+            ->route('students.index')
             ->with('success', 'Data siswa berhasil diperbarui!');
     }
 
@@ -177,7 +192,8 @@ class StudentCrudController extends Controller
     {
         $student->delete();
 
-        return redirect()->route('students.index')
+        return redirect()
+            ->route('students.index')
             ->with('success', 'Data siswa berhasil dihapus!');
     }
 }

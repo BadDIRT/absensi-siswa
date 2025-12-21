@@ -9,7 +9,7 @@ class Attendance extends Model
 {
     protected $table = 'attendance';
 
-    protected $fillable = ['student_id', 'date', 'time_in', 'time_out', 'status'];
+    protected $fillable = ['student_id', 'date', 'time_in', 'time_out', 'status', 'timestamps', 'teacher_id'];
 
     public function student(): BelongsTo
     {
