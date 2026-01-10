@@ -45,4 +45,13 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
     Route::resource('teachers', TeacherCrudController::class);
     Route::resource('users', UserCrudController::class);
     Route::resource('attendances', AttendanceCrudController::class);
+
+    Route::get('students/barcode/create', [BarcodeController::class, 'create'])
+        ->name('students.barcode.create');
+
+    Route::post('students/barcode/store', [BarcodeController::class, 'store'])
+        ->name('students.barcode.store');
+
+    Route::get('students/{student}/barcode/download', [BarcodeController::class, 'download'])
+        ->name('students.barcode.download');
 });

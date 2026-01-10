@@ -64,6 +64,8 @@
             <p class="text-xl font-bold mt-1">{{ $attendance->time_out ?? '-' }}</p>
         </div>
 
+        
+
         {{-- TIMESTAMP --}}
         <div class="mt-8 p-4 bg-white/10 border border-white/20 rounded-xl shadow-inner sm:col-span-2">
             <p class="text-sm">

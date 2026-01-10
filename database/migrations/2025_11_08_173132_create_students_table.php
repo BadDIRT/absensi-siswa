@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('gender')->nullable();
             $table->date('date_of_birth')->nullable();
             $table->string('address')->nullable();
+            $table->string('barcode')->nullable();
             $table->timestamps();
         });
     }
@@ -31,5 +32,8 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('students');
+        Schema::table('students', function (Blueprint $table) {
+        $table->dropColumn('barcode');
+        });
     }
 };

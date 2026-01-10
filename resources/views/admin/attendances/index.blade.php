@@ -3,7 +3,7 @@
 @section('headerTitle', 'ABSENSIKU - Data Absensi')
 @section('pageTitle', 'Data Absensi')
 @section('routeCreate', '#')
-@section('createButtonText', '—')
+@section('createButtonText', 'Pindai Kode Batang')
 
 {{-- ================= FILTER / SEARCH ================= --}}
 @section('searching')
@@ -106,7 +106,7 @@
 
             <div class="mt-5">
                 <a href="{{ route('attendances.show', $a->id) }}"
-                   class="px-4 py-3 bg-blue-500/40 border border-white/20 rounded-xl font-semibold text-center block">
+                class="px-4 py-3 bg-blue-500/40 border border-white/20 rounded-xl font-semibold text-center block">
                     Detail
                 </a>
             </div>

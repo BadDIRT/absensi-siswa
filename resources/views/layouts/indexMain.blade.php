@@ -43,6 +43,7 @@
                     class="px-4 py-2 bg-white/10 backdrop-blur-2xl hover:bg-white/20 border border-white/20 hover:scale-105 hover:shadow-lg text-white rounded-xl transition-all duration-300 font-semibold w-full sm:w-auto text-center">
                     @yield('createButtonText')
                 </a>
+
             </header>
 
             @include('layouts.components._alertMessage')
