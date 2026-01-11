@@ -127,8 +127,8 @@
                                     <td class="p-3">{{ $s->department->name ?? '-' }}</td>
                                     <td class="p-3">
                                         @if($s->barcode)
-    <img src="{{ asset('storage/'.$s->barcode) }}" class="mx-auto">
-    <p class="text-xs mt-1">{{ $s->nipd }}</p>
+    {!! DNS1D::getBarcodeHTML($s->nipd, 'C128') !!}
+    <p class="text-xs mt-1 mx-17">{{ $s->nipd }}</p>
 @else
     <span class="text-white/60">-</span>
 @endif
@@ -191,12 +191,11 @@
                     <span class="text-xs opacity-70 mb-2">📦 Kode Batang</span>
 
                     @if($s->barcode)
-    <img src="{{ asset('storage/'.$s->barcode) }}" class="mx-auto">
+    {!! DNS1D::getBarcodeHTML($s->nipd, 'C128') !!}
     <p class="text-xs mt-1">{{ $s->nipd }}</p>
 @else
     <span class="text-white/60">-</span>
 @endif
-
                 </div>
 
             </div>

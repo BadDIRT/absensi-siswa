@@ -64,6 +64,30 @@
             <p class="text-xl font-bold mt-1">{{ $student->department->name ?? '-' }}</p>
         </div>
 
+        <div class="bg-white/5 p-4 rounded-2xl border border-white/10">
+    <p class="text-sm opacity-80 mb-3">Kode Batang</p>
+
+    @if($student->barcode)
+
+        <center>{!! DNS1D::getBarcodeHTML($student->nipd, 'C128') !!}</center>
+
+        <center><p class="text-xl font-bold mt-2">{{ $student->nipd }}</p></center>
+
+        {{-- BUTTON DOWNLOAD --}}
+        <a href="{{ route('students.barcode.download', $student->id) }}"
+           class="inline-block mt-4 px-4 py-2 bg-blue-500/60 hover:bg-blue-500/80 
+                  border border-white/20 rounded-xl font-semibold text-sm
+                  transition duration-300 transform hover:-translate-y-1
+                  hover:shadow-lg hover:shadow-blue-500/30">
+            Unduh Kode Batang
+        </a>
+
+    @else
+        <span class="text-white/60">-</span>
+    @endif
+</div>
+
+
         <div class="bg-white/5 p-4 rounded-2xl border border-white/10 sm:col-span-2">
             <p class="text-sm opacity-80">Alamat</p>
             <p class="text-xl font-bold mt-1">{{ $student->address ?? '-' }}</p>

@@ -159,7 +159,7 @@ class AttendanceCrudController extends Controller
         $attendance->update($validated);
 
         return redirect()
-            ->route('admin.attendances.index')
+            ->route('attendances.index')
             ->with('success', 'Data absensi berhasil diperbarui!');
     }
 

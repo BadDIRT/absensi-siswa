@@ -11,9 +11,7 @@ use App\Http\Controllers\UserCrudController;
 use App\Http\Controllers\ClassCrudController;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\StudentCrudController;
-use App\Http\Controllers\SubjectCrudController;
 use App\Http\Controllers\TeacherCrudController;
-use App\Http\Controllers\TimetableCrudController;
 use App\Http\Controllers\AttendanceCrudController;
 use App\Http\Controllers\DepartmentCrudController;
 
@@ -54,4 +52,11 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
 
     Route::get('students/{student}/barcode/download', [BarcodeController::class, 'download'])
         ->name('students.barcode.download');
+
+    Route::get('attendances/scan', [AttendanceController::class, 'scanForm'])
+        ->name('attendances.scan');
+
+    Route::post('attendances/scan', [AttendanceController::class, 'scanProcess'])
+        ->name('attendances.scan.process');
+
 });

@@ -18,6 +18,9 @@ return Application::configure(basePath: dirname(__DIR__))
             'auth' => Authenticate::class,
             'role' => RoleMiddleware::class,
             'guest' => RedirectIfAuthenticated::class,
+            'DNS1D' => Milon\Barcode\Facades\DNS1DFacade::class,
+            'DNS2D' => Milon\Barcode\Facades\DNS2DFacade::class,
+
     ]);
 })
 
