@@ -42,7 +42,15 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
     Route::resource('departments', DepartmentCrudController::class);
     Route::resource('teachers', TeacherCrudController::class);
     Route::resource('users', UserCrudController::class);
+
+    Route::get('attendances/scan', [AttendanceController::class, 'scanForm'])
+        ->name('attendances.scan.form');
+
+    Route::post('attendances/scan', [AttendanceController::class, 'scanProcess'])
+        ->name('attendances.scan.process');
+        
     Route::resource('attendances', AttendanceCrudController::class);
+
 
     Route::get('students/barcode/create', [BarcodeController::class, 'create'])
         ->name('students.barcode.create');
@@ -53,10 +61,6 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
     Route::get('students/{student}/barcode/download', [BarcodeController::class, 'download'])
         ->name('students.barcode.download');
 
-    Route::get('attendances/scan', [AttendanceController::class, 'scanForm'])
-        ->name('attendances.scan');
-
-    Route::post('attendances/scan', [AttendanceController::class, 'scanProcess'])
-        ->name('attendances.scan.process');
+    
 
 });

@@ -32,7 +32,7 @@ class AttendanceController extends Controller
             ->whereDate('date', $today)
             ->first();
 
-        // === SCAN PERTAMA ===
+        // === SCAN PERTAMA (MASUK) ===
         if (!$attendance) {
             Attendance::create([
                 'student_id' => $student->id,
@@ -45,7 +45,7 @@ class AttendanceController extends Controller
             return back()->with('success', 'Absensi masuk berhasil.');
         }
 
-        // === SCAN KEDUA ===
+        // === SCAN KEDUA (PULANG) ===
         if ($attendance->time_in && !$attendance->time_out) {
             $attendance->update([
                 'time_out' => Carbon::now()->format('H:i:s'),
@@ -55,6 +55,6 @@ class AttendanceController extends Controller
         }
 
         // === SCAN KETIGA (DITOLAK) ===
-        return back()->with('error', 'Absensi sudah lengkap hari ini.');
+        return back()->with('error', 'Absensi hari ini sudah lengkap.');
     }
 }

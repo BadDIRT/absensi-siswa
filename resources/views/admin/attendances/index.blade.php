@@ -2,7 +2,7 @@
 
 @section('headerTitle', 'ABSENSIKU - Data Absensi')
 @section('pageTitle', 'Data Absensi')
-@section('routeCreate', route('attendances.scan'))
+@section('routeCreate', route('attendances.scan.form'))
 @section('createButtonText', 'Pindai Kode Batang')
 
 {{-- ================= FILTER / SEARCH ================= --}}

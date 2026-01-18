@@ -1,50 +1,109 @@
-@extends('layouts.indexMain')
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Scan Barcode Absensi</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-@section('headerTitle', 'ABSENSIKU - Scan Barcode')
-@section('pageTitle', 'Scan Kehadiran')
+    @vite('resources/css/app.css')
+    <script src="https://unpkg.com/quagga@0.12.1/dist/quagga.min.js"></script>
+</head>
+<body class="bg-gray-900 min-h-screen flex items-center justify-center text-white">
 
-@section('content')
+<div class="w-full max-w-md bg-gray-800 rounded-xl shadow-lg p-5">
 
-<div class="max-w-xl mx-auto bg-white/10 backdrop-blur-2xl border border-white/10 rounded-3xl p-8 shadow-2xl">
+    <h2 class="text-xl font-bold text-center mb-4">
+        Scan Barcode Absensi
+    </h2>
 
-    <h2 class="text-2xl font-bold mb-6 text-center">Scan Kode Batang</h2>
-
-    @if(session('success'))
-        <div class="mb-4 p-3 bg-green-500/30 rounded-xl text-center font-semibold">
+    {{-- Alert --}}
+    @if (session('success'))
+        <div class="bg-green-600/20 text-green-300 p-3 rounded mb-3 text-center">
             {{ session('success') }}
         </div>
     @endif
 
-    @if(session('error'))
-        <div class="mb-4 p-3 bg-red-500/30 rounded-xl text-center font-semibold">
+    @if (session('error'))
+        <div class="bg-red-600/20 text-red-300 p-3 rounded mb-3 text-center">
             {{ session('error') }}
         </div>
     @endif
 
-    <form method="POST" action="{{ route('attendance.scan.process') }}">
+    {{-- CAMERA VIEW --}}
+    <div id="scanner" class="w-full h-64 bg-black rounded-lg overflow-hidden mb-4"></div>
+
+    {{-- HIDDEN FORM --}}
+    <form id="scanForm" method="POST" action="{{ route('attendances.scan.process') }}">
         @csrf
-
-        <label class="font-semibold text-sm">NIPD (hasil scan)</label>
-        <input
-            type="text"
-            name="nipd"
-            autofocus
-            placeholder="Scan barcode di sini"
-            class="w-full mt-3 p-4 rounded-xl bg-white/5 border border-white/20 text-white
-                   focus:ring-2 focus:ring-blue-400 focus:outline-none"
-        >
-
-        <button
-            type="submit"
-            class="mt-6 w-full py-3 bg-blue-600/60 hover:bg-blue-600/80 rounded-xl font-semibold transition">
-            Proses Absensi
-        </button>
+        <input type="hidden" name="nipd" id="nipd">
     </form>
 
-    <p class="text-xs text-white/60 text-center mt-6">
-        Scan 1x = Masuk | Scan 2x = Pulang | Scan lebih dari 2x akan ditolak
+    <p class="text-sm text-gray-400 text-center mt-2">
+        Arahkan kamera ke barcode siswa
     </p>
 
 </div>
 
-@endsection
+<script>
+let scanned = false;
+
+Quagga.init({
+    inputStream: {
+        name: "Live",
+        type: "LiveStream",
+        target: document.querySelector('#scanner'),
+        constraints: {
+            facingMode: "environment",
+            width: 640,
+            height: 480
+        }
+    },
+    decoder: {
+        readers: ["code_128_reader"]
+    },
+    locate: true
+}, function (err) {
+    if (err) {
+        console.error(err);
+        alert("Kamera tidak bisa diakses");
+        return;
+    }
+    Quagga.start();
+});
+
+Quagga.onDetected(function (data) {
+    if (scanned) return;
+
+    if (!data || !data.codeResult || !data.codeResult.code) {
+        return;
+    }
+
+    const code = data.codeResult.code.trim();
+
+    // VALIDASI PANJANG (sesuaikan NIPD kamu)
+    if (code.length < 5) {
+        return;
+    }
+
+    scanned = true;
+
+    console.log("Barcode valid:", code);
+
+    document.getElementById('nipd').value = code;
+
+    // Stop kamera sebelum submit
+    Quagga.stop();
+
+    setTimeout(() => {
+        document.getElementById('scanForm').submit();
+    }, 300);
+});
+setInterval(() => {
+    console.log("Hidden input:", document.getElementById('nipd').value);
+}, 1000);
+</script>
+
+
+
+</body>
+</html>
