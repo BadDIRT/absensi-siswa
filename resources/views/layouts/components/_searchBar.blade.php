@@ -3,7 +3,7 @@
         <input type="text" name="search" value="{{ request('search') }}"
                class="w-full px-4 py-3 rounded-xl bg-white/20 text-white placeholder-white/70 border border-white/30
                       focus:ring-2 focus:ring-white/40 focus:bg-white/30 transition-all duration-300"
-               placeholder="Cari jadwal...">
+               placeholder="Pencarian...">
 
         <svg class="w-5 h-5 absolute right-4 top-1/2 -translate-y-1/2 text-white/60"
              fill="none" stroke="currentColor" viewBox="0 0 24 24">

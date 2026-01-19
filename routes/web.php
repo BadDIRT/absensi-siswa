@@ -43,6 +43,10 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
     Route::resource('teachers', TeacherCrudController::class);
     Route::resource('users', UserCrudController::class);
 
+    Route::get('/admin/dashboard/status-filter', [AdminController::class, 'filterStatus'])
+    ->name('dashboard.status.filter');
+
+
     Route::get('attendances/scan', [AttendanceController::class, 'scanForm'])
         ->name('attendances.scan.form');
 

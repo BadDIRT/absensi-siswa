@@ -31,11 +31,6 @@
         </div>
 
         <div class="bg-white/5 p-4 rounded-2xl border border-white/10">
-            <p class="text-sm opacity-80">Guru</p>
-            <p class="text-xl font-bold mt-1">{{ $attendance->teacher->name ?? '-' }}</p>
-        </div>
-
-        <div class="bg-white/5 p-4 rounded-2xl border border-white/10">
             <p class="text-sm opacity-80">Tanggal</p>
             <p class="text-xl font-bold mt-1">
                 {{ \Carbon\Carbon::parse($attendance->date)->translatedFormat('d F Y') }}

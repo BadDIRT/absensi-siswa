@@ -84,6 +84,8 @@ class AttendanceCrudController extends Controller
             'teacher_id' => 'required|exists:teachers,id',
             'date'       => 'required|date',
             'status'     => 'required|in:hadir,sakit,izin,tidak hadir',
+            'time_in' => 'nullable|required_if:status,hadir',
+            'time_out' => 'nullable|required_if:status,hadir',
         ], [
             'student_id.required' => 'Siswa wajib dipilih.',
             'student_id.exists'   => 'Siswa tidak valid.',
@@ -106,15 +108,10 @@ class AttendanceCrudController extends Controller
                 ->with('error', 'Siswa sudah melakukan absensi pada tanggal tersebut.');
         }
 
-        Attendance::create([
-            ...$validated,
-            'time_in' => $validated['status'] === 'hadir'
-                ? Carbon::now()->format('H:i:s')
-                : null,
-        ]);
+        Attendance::create($validated);
 
         return redirect()
-            ->route('admin.attendances.index')
+            ->route('attendances.index')
             ->with('success', 'Data absensi berhasil ditambahkan!');
     }
 
@@ -149,11 +146,17 @@ class AttendanceCrudController extends Controller
             'teacher_id' => 'required|exists:teachers,id',
             'date'       => 'required|date',
             'status'     => 'required|in:hadir,sakit,izin,tidak hadir',
+            'time_in' => 'nullable|required_if:status,hadir',
+            'time_out' => 'nullable|required_if:status,hadir',
         ], [
             'student_id.required' => 'Siswa wajib dipilih.',
             'teacher_id.required' => 'Guru wajib dipilih.',
             'date.required'       => 'Tanggal absensi wajib diisi.',
             'status.required'     => 'Status absensi wajib dipilih.',
+            'status.in'           => 'Status absensi tidak valid.',
+            'date.date'           => 'Format tanggal tidak valid.',
+            'student_id.exists'   => 'Siswa tidak valid.',
+            'teacher_id.exists'   => 'Guru tidak valid.',
         ]);
 
         $attendance->update($validated);
@@ -171,7 +174,7 @@ class AttendanceCrudController extends Controller
         $attendance->delete();
 
         return redirect()
-            ->route('admin.attendances.index')
+            ->route('attendances.index')
             ->with('success', 'Data absensi berhasil dihapus!');
     }
 }

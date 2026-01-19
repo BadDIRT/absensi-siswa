@@ -1,9 +1,11 @@
-@extends('layouts.indexMain')
+@extends('layouts.indexSecondary')
 
 @section('headerTitle', 'ABSENSIKU - Data Absensi')
 @section('pageTitle', 'Data Absensi')
-@section('routeCreate', route('attendances.scan.form'))
-@section('createButtonText', 'Pindai Kode Batang')
+@section('routePrimary', route('attendances.scan.form'))
+@section('primaryButtonText', 'Pindai Kode Batang')
+@section('routeSecondary', route('attendances.create'))
+@section('secondaryButtonText', 'Tambah Absensi Manual')
 
 {{-- ================= FILTER / SEARCH ================= --}}
 @section('searching')
@@ -18,7 +20,6 @@
 @section('thead')
     <th class="p-3">No</th>
     <th class="p-3">Nama Siswa</th>
-    <th class="p-3">Guru</th>
     <th class="p-3">Tanggal</th>
     <th class="p-3">Jam Masuk</th>
     <th class="p-3">Jam Pulang</th>
@@ -31,7 +32,6 @@
         <tr class="border-b border-white/10 hover:bg-white/10 transition-all duration-300">
             <td class="p-3">{{ $loop->iteration }}</td>
             <td class="p-3">{{ $a->student->name ?? '-' }}</td>
-            <td class="p-3">{{ $a->teacher->name ?? '-' }}</td>
             <td class="p-3">
                 {{ \Carbon\Carbon::parse($a->date)->translatedFormat('d F Y') }}
             </td>
@@ -88,10 +88,6 @@
                     </span>
                 </div>
 
-                <div class="flex flex-col bg-white/5 p-3 rounded-xl">
-                    <span class="text-xs opacity-70">👨‍🏫 Guru</span>
-                    <span class="font-semibold">{{ $a->teacher->name ?? '-' }}</span>
-                </div>
 
                 <div class="flex flex-col bg-white/5 p-3 rounded-xl">
                     <span class="text-xs opacity-70">⏰ Masuk</span>
