@@ -48,7 +48,7 @@ return view('admin.dashboard', [
     'totalStudents'     => Student::count(),
     'totalTeachers'     => Teacher::count(),
     'totalDepartments'  => Department::count(),
-    'presentToday'      => $statusStats['Hadir'] ?? 0,
+    'presentToday'      => $statusStats['hadir'] ?? 0,
     'statusStats'       => $statusStats,
     'weeklyAttendance'  => $weeklyAttendance,
 ]);

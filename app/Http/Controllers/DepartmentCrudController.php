@@ -75,7 +75,7 @@ class DepartmentCrudController extends Controller
 
         Department::create($validated);
 
-        return redirect()->route('departments.index')
+        return redirect()->route('admin.departments.index')
             ->with('success', 'Data jurusan berhasil ditambahkan!');
     }
 
@@ -113,7 +113,7 @@ class DepartmentCrudController extends Controller
 
         $department->update($validated);
 
-        return redirect()->route('departments.index')
+        return redirect()->route('admin.departments.index')
             ->with('success', 'Data jurusan berhasil diperbarui!');
     }
 
@@ -124,7 +124,7 @@ class DepartmentCrudController extends Controller
     {
         $department->delete();
 
-        return redirect()->route('departments.index')
+        return redirect()->route('admin.departments.index')
             ->with('success', 'Data jurusan berhasil dihapus!');
     }
 }

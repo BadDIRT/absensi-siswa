@@ -2,7 +2,7 @@
 
 @section('headerTitle', 'ABSENSIKU - Data Jurusan')
 @section('pageTitle', 'Data Jurusan')
-@section('routeCreate', route('departments.create'))
+@section('routeCreate', route('admin.departments.create'))
 @section('createButtonText', '+ Tambah Jurusan')
 
 {{-- SEARCH + FILTER --}}
@@ -35,7 +35,7 @@
             <td class="p-3 text-center">
                 <div class="flex gap-2 justify-center">
 
-                    <a href="{{ route('departments.show', $d->id) }}"
+                    <a href="{{ route('admin.departments.show', $d->id) }}"
                        class="px-16 py-1 bg-blue-500/40 hover:bg-blue-500/60
                        border border-white/20 rounded-lg font-semibold transition">
                         Detail
@@ -65,7 +65,7 @@
 
             <div class="mt-5 grid grid-cols-1 gap-3">
 
-                <a href="{{ route('departments.show', $d->id) }}"
+                <a href="{{ route('admin.departments.show', $d->id) }}"
                    class="px-4 py-3 bg-blue-500/40 border border-white/20 rounded-xl font-semibold text-center">
                     Detail
                 </a>

@@ -41,12 +41,12 @@
                 </div>
 
                 <div class="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
-    <a href="{{ route('students.create') }}"
+    <a href="{{ route('admin.students.create') }}"
         class="px-4 py-2 bg-white/10 backdrop-blur-2xl hover:bg-white/20 border border-white/20 hover:scale-105 hover:shadow-lg text-white rounded-xl transition-all duration-300 font-semibold text-center">
         + Tambah Siswa
     </a>
 
-    <a href="{{ route('students.barcode.create') }}"
+    <a href="{{ route('admin.students.barcode.create') }}"
         class="px-4 py-2 bg-emerald-500/30 hover:bg-emerald-500/50 border border-white/20 hover:scale-105 hover:shadow-lg text-white rounded-xl transition-all duration-300 font-semibold text-center">
         Buat Kode Batang
     </a>
@@ -135,7 +135,7 @@
 
                                     </td>
                                     <td class="p-3 text-center">
-                                        <a href="{{ route('students.show', $s->id) }}"
+                                        <a href="{{ route('admin.students.show', $s->id) }}"
                                            class="px-6 py-1 bg-blue-500/40 hover:bg-blue-500/60 border border-white/20 rounded-lg font-semibold transition">
                                             Detail
                                         </a>
@@ -201,7 +201,7 @@
             </div>
 
             <div class="mt-5">
-                <a href="{{ route('students.show', $s->id) }}"
+                <a href="{{ route('admin.students.show', $s->id) }}"
                    class="block w-full px-4 py-3 bg-blue-500/40 border border-white/20 rounded-xl font-semibold text-center">
                     Detail
                 </a>

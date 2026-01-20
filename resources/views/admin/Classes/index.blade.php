@@ -2,7 +2,7 @@
 
 @section('headerTitle', 'ABSENSIKU - Data Kelas')
 @section('pageTitle', 'Data Kelas')
-@section('routeCreate', route('classes.create'))
+@section('routeCreate', route('admin.classes.create'))
 @section('createButtonText', '+ Tambah Kelas')
 
 @section('searching')
@@ -38,7 +38,7 @@
 
             <td class="p-3 text-center">
                 <div class="flex gap-2 justify-center">
-                    <a href="{{ route('classes.show', $c->id) }}"
+                    <a href="{{ route('admin.classes.show', $c->id) }}"
                        class="px-16 py-1 bg-blue-500/40 hover:bg-blue-500/60 border border-white/20 rounded-lg font-semibold transition">
                         Detail
                     </a>
@@ -76,7 +76,7 @@
             </div>
 
             <div class="mt-5 grid grid-cols-1 gap-3">
-                <a href="{{ route('classes.show', $c->id) }}"
+                <a href="{{ route('admin.classes.show', $c->id) }}"
                    class="px-4 py-3 bg-blue-500/40 border border-white/20 rounded-xl font-semibold text-center">
                     Detail
                 </a>

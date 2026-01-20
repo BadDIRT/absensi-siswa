@@ -33,7 +33,7 @@
     <div id="scanner" class="w-full h-64 bg-black rounded-lg overflow-hidden mb-4"></div>
 
     {{-- HIDDEN FORM --}}
-    <form id="scanForm" method="POST" action="{{ route('attendances.scan.process') }}">
+    <form id="scanForm" method="POST" action="{{ route('admin.attendances.scan.process') }}">
         @csrf
         <input type="hidden" name="nipd" id="nipd">
     </form>

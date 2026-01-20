@@ -26,7 +26,7 @@
         </div>
     @endif
 
-    <form action="{{ route('students.barcode.store') }}" method="POST" class="space-y-5">
+    <form action="{{ route('admin.students.barcode.store') }}" method="POST" class="space-y-5">
     @csrf
 
     <div>
@@ -42,7 +42,7 @@
     </div>
 
         <div class="flex gap-3 pt-4">
-            <a href="{{ route('students.index') }}"
+            <a href="{{ route('admin.students.index') }}"
                 class="px-5 py-3 bg-white/20 rounded-xl font-semibold text-center">
                 Kembali
             </a>

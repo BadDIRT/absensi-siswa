@@ -20,9 +20,4 @@ class Teacher extends Model
     {
         return $this->hasMany(Department::class, 'head_teacher_id');
     }
-
-    public function subjects(): HasMany
-    {
-        return $this->hasMany(Subject::class);
-    }
 }

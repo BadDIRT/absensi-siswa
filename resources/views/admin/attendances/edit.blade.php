@@ -22,7 +22,7 @@
 
     <h2 class="text-lg sm:text-2xl font-bold mb-6">Form Edit Absensi</h2>
 
-    <form method="POST" action="{{ route('attendances.update', $attendance->id) }}" class="space-y-5">
+    <form method="POST" action="{{ route('admin.attendances.update', $attendance->id) }}" class="space-y-5">
         @csrf
         @method('PUT')
 
@@ -118,7 +118,7 @@
 
         {{-- BUTTON --}}
         <div class="flex flex-col sm:flex-row gap-3 pt-4">
-            <a href="{{ route('attendances.index') }}"
+            <a href="{{ route('admin.attendances.index') }}"
                class="px-5 py-3 bg-white/20 hover:bg-white/30 border border-white/30 rounded-xl font-semibold text-center transition">
                 Kembali
             </a>

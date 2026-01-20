@@ -63,13 +63,13 @@
     {{-- BUTTONS --}}
     <div class="flex flex-col sm:flex-row gap-3 mt-8">
 
-        <a href="{{ route('classes.index') }}"
+        <a href="{{ route('admin.classes.index') }}"
            class="px-5 py-3 bg-white/20 hover:bg-white/30 border border-white/30 rounded-xl font-semibold text-center backdrop-blur-xl
                   transition duration-300 transform hover:-translate-y-1 hover:shadow-lg hover:shadow-white/20">
             Kembali
         </a>
 
-        <a href="{{ route('classes.edit', $class->id) }}"
+        <a href="{{ route('admin.classes.edit', $class->id) }}"
            class="px-5 py-3 bg-yellow-500/60 hover:bg-yellow-500/80 border border-white/20 rounded-xl font-semibold backdrop-blur-xl text-center
                   transition duration-300 transform hover:-translate-y-1 hover:shadow-lg hover:shadow-yellow-500/30">
             Edit
@@ -110,7 +110,7 @@
                 Batal
             </button>
 
-            <form action="{{ route('classes.destroy', $class->id) }}" method="POST" class="w-full">
+            <form action="{{ route('admin.classes.destroy', $class->id) }}" method="POST" class="w-full">
                 @csrf
                 @method('DELETE')
                 <button type="submit"

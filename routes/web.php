@@ -29,30 +29,28 @@ Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth')->n
 Route::get('/admin', [AdminController::class, 'index'])->middleware(['auth', 'role:admin'])->name('admin.dashboard');
 
 // Teacher Only
-Route::get('/teacher', [TeacherController::class, 'index'])->middleware(['auth', 'role:teacher']);
+Route::get('/teacher', [TeacherController::class, 'index'])->middleware(['auth', 'role:teacher'])->name('teacher.dashboard');
 
 // Student Only
-Route::get('/student', [StudentController::class, 'index'])->middleware(['auth', 'role:student']);
+Route::get('/student', [StudentController::class, 'index'])->middleware(['auth', 'role:student'])->name('student.dashboard');
+
 
 
 // CRUD Routes for Admin
-Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
+Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
+
+Route::get('attendances/scan', [AttendanceController::class, 'scanForm'])
+        ->name('attendances.scan.form');
+
+    Route::post('attendances/scan', [AttendanceController::class, 'scanProcess'])
+        ->name('attendances.scan.process');
+
+
     Route::resource('students', StudentCrudController::class);
     Route::resource('classes', ClassCrudController::class);
     Route::resource('departments', DepartmentCrudController::class);
     Route::resource('teachers', TeacherCrudController::class);
     Route::resource('users', UserCrudController::class);
-
-    Route::get('/admin/dashboard/status-filter', [AdminController::class, 'filterStatus'])
-    ->name('dashboard.status.filter');
-
-
-    Route::get('attendances/scan', [AttendanceController::class, 'scanForm'])
-        ->name('attendances.scan.form');
-
-    Route::post('attendances/scan', [AttendanceController::class, 'scanProcess'])
-        ->name('attendances.scan.process');
-        
     Route::resource('attendances', AttendanceCrudController::class);
 
 
@@ -65,6 +63,31 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
     Route::get('students/{student}/barcode/download', [BarcodeController::class, 'download'])
         ->name('students.barcode.download');
 
+});
+
+
+// CRUD Routes for Teacher
+Route::middleware(['auth', 'role:teacher'])->prefix('teacher')->name('teacher.')->group(function () {
+
+Route::get('attendances/scan', [AttendanceController::class, 'scanForm'])
+        ->name('attendances.scan.form');
+
+    Route::post('attendances/scan', [AttendanceController::class, 'scanProcess'])
+        ->name('attendances.scan.process');
+
+    Route::resource('students', StudentCrudController::class)->only(['index', 'show']);
+    Route::resource('classes', ClassCrudController::class)->only(['index', 'show']);
+    Route::resource('departments', DepartmentCrudController::class)->only(['index', 'show']);
+    Route::resource('teachers', TeacherCrudController::class)->only(['index', 'show']);
+    Route::resource('users', UserCrudController::class)->only(['index', 'show']);
+    Route::resource('attendances', AttendanceCrudController::class)->only(['index', 'show']);
+
+    Route::get('students/{student}/barcode/download', [BarcodeController::class, 'download'])
+        ->name('students.barcode.download');
+
     
 
 });
+
+
+

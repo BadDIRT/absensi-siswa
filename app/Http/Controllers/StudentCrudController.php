@@ -116,7 +116,7 @@ class StudentCrudController extends Controller
         Student::create($validated);
 
         return redirect()
-            ->route('students.index')
+            ->route('admin.students.index')
             ->with('success', 'Data siswa berhasil ditambahkan!');
     }
 
@@ -181,7 +181,7 @@ class StudentCrudController extends Controller
         $student->update($validated);
 
         return redirect()
-            ->route('students.index')
+            ->route('admin.students.index')
             ->with('success', 'Data siswa berhasil diperbarui!');
     }
 
@@ -193,7 +193,7 @@ class StudentCrudController extends Controller
         $student->delete();
 
         return redirect()
-            ->route('students.index')
+            ->route('admin.students.index')
             ->with('success', 'Data siswa berhasil dihapus!');
     }
 }

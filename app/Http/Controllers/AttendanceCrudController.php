@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Attendance;
+use Carbon\Carbon;
 use App\Models\Student;
 use App\Models\Teacher;
+use App\Models\Attendance;
 use Illuminate\Http\Request;
-use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class AttendanceCrudController extends Controller
 {
@@ -60,7 +61,16 @@ class AttendanceCrudController extends Controller
         // PAGINATION
         $attendances = $query->paginate(10)->withQueryString();
 
+        $user = Auth::user();
+
+    // Pastikan user memiliki kolom 'role' atau relasi ke role
+    if ($user->role == 'admin') {
         return view('admin.attendances.index', compact('attendances'));
+    } elseif ($user->role == 'teacher') {
+        return view('teacher.attendances.index', compact('attendances'));
+    } else {
+        return view('student.attendances.index', compact('attendances'));
+    }
     }
 
     /**
@@ -111,7 +121,7 @@ class AttendanceCrudController extends Controller
         Attendance::create($validated);
 
         return redirect()
-            ->route('attendances.index')
+            ->route('admin.attendances.index')
             ->with('success', 'Data absensi berhasil ditambahkan!');
     }
 
@@ -162,7 +172,7 @@ class AttendanceCrudController extends Controller
         $attendance->update($validated);
 
         return redirect()
-            ->route('attendances.index')
+            ->route('admin.attendances.index')
             ->with('success', 'Data absensi berhasil diperbarui!');
     }
 
@@ -174,7 +184,7 @@ class AttendanceCrudController extends Controller
         $attendance->delete();
 
         return redirect()
-            ->route('attendances.index')
+            ->route('admin.attendances.index')
             ->with('success', 'Data absensi berhasil dihapus!');
     }
 }

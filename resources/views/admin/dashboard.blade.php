@@ -3,10 +3,10 @@
 @section('headerTitle', 'Dashboard Admin')
 @section('pageTitle', 'Dashboard')
 
-@section('routePrimary', '#')
-@section('primaryButtonText', 'Export Laporan')
+@section('routePrimary', route('admin.attendances.scan.form'))
+@section('primaryButtonText', 'Pindai Kode Batang')
 
-@section('routeSecondary', route('attendances.index'))
+@section('routeSecondary', route('admin.attendances.index'))
 @section('secondaryButtonText', 'Lihat Absensi')
 
 @section('title')
@@ -184,6 +184,7 @@ new Chart(document.getElementById('weeklyChart'), {
 </script>
 
 </div>
+
 @endsection
 
 @section('tableRowsData')

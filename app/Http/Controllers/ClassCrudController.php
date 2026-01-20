@@ -89,7 +89,7 @@ class ClassCrudController extends Controller
 
         SchoolClass::create($validated);
 
-        return redirect()->route('classes.index')
+        return redirect()->route('admin.classes.index')
             ->with('success', 'Data kelas berhasil ditambahkan!');
     }
 
@@ -132,7 +132,7 @@ class ClassCrudController extends Controller
 
         $class->update($validated);
 
-        return redirect()->route('classes.index')
+        return redirect()->route('admin.classes.index')
             ->with('success', 'Data kelas berhasil diperbarui!');
     }
 
@@ -143,7 +143,7 @@ class ClassCrudController extends Controller
     {
         $class->delete();
 
-        return redirect()->route('classes.index')
+        return redirect()->route('admin.classes.index')
             ->with('success', 'Data kelas berhasil dihapus!');
     }
 }

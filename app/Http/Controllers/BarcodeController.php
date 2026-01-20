@@ -57,7 +57,7 @@ class BarcodeController extends Controller
     ]);
 
     return redirect()
-        ->route('students.index')
+        ->route('admin.students.index')
         ->with('success', 'Kode batang berhasil dibuat.');
 }
 

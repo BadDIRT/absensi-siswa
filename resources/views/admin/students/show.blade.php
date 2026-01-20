@@ -74,7 +74,7 @@
         <center><p class="text-xl font-bold mt-2">{{ $student->nipd }}</p></center>
 
         {{-- BUTTON DOWNLOAD --}}
-        <a href="{{ route('students.barcode.download', $student->id) }}"
+        <a href="{{ route('admin.students.barcode.download', $student->id) }}"
            class="inline-block mt-4 px-4 py-2 bg-blue-500/60 hover:bg-blue-500/80 
                   border border-white/20 rounded-xl font-semibold text-sm
                   transition duration-300 transform hover:-translate-y-1
@@ -110,13 +110,13 @@
     {{-- BUTTONS --}}
     <div class="flex flex-col sm:flex-row gap-3 mt-8">
 
-        <a href="{{ route('students.index') }}"
+        <a href="{{ route('admin.students.index') }}"
             class="px-5 py-3 bg-white/20 hover:bg-white/30 border border-white/30 rounded-xl font-semibold text-center backdrop-blur-xl
                     transition duration-300 transform hover:-translate-y-1 hover:shadow-lg hover:shadow-white/20">
             Kembali
         </a>
 
-        <a href="{{ route('students.edit', $student->id) }}"
+        <a href="{{ route('admin.students.edit', $student->id) }}"
             class="px-5 py-3 bg-yellow-500/60 hover:bg-yellow-500/80 border border-white/20 rounded-xl font-semibold backdrop-blur-xl text-center
                     transition duration-300 transform hover:-translate-y-1 hover:shadow-lg hover:shadow-yellow-500/30">
             Edit
@@ -154,7 +154,7 @@
                 Batal
             </button>
 
-            <form action="{{ route('students.destroy', $student->id) }}" method="POST" class="w-full">
+            <form action="{{ route('admin.students.destroy', $student->id) }}" method="POST" class="w-full">
                 @csrf
                 @method('DELETE')
                 <button type="submit"

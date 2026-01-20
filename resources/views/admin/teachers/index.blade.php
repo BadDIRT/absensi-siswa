@@ -2,7 +2,7 @@
 
 @section('headerTitle', 'ABSENSIKU - Data Guru')
 @section('pageTitle', 'Data Guru')
-@section('routeCreate', route('teachers.create'))
+@section('routeCreate', route('admin.teachers.create'))
 @section('createButtonText', '+ Tambah Guru')
 
 {{-- FILTER OPTIONAL (jika belum ada, bisa kosong) --}}
@@ -38,7 +38,7 @@
 
             <td class="p-3 text-center">
                 <div class="flex gap-2 justify-center">
-                    <a href="{{ route('teachers.show', $t->id) }}"
+                    <a href="{{ route('admin.teachers.show', $t->id) }}"
                         class="px-16 py-1 bg-blue-500/40 hover:bg-blue-500/60 border border-white/20 rounded-lg transition">
                         Detail
                     </a>
@@ -75,7 +75,7 @@
             </div>
 
             <div class="mt-5 grid grid-cols-1 gap-3">
-                <a href="{{ route('teachers.show', $t->id) }}"
+                <a href="{{ route('admin.teachers.show', $t->id) }}"
                    class="px-4 py-3 bg-blue-500/40 border border-white/20 rounded-xl font-semibold text-center">
                     Detail
                 </a>

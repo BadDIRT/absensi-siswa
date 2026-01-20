@@ -2,9 +2,9 @@
 
 @section('headerTitle', 'ABSENSIKU - Data Absensi')
 @section('pageTitle', 'Data Absensi')
-@section('routePrimary', route('attendances.scan.form'))
+@section('routePrimary', route('admin.attendances.scan.form'))
 @section('primaryButtonText', 'Pindai Kode Batang')
-@section('routeSecondary', route('attendances.create'))
+@section('routeSecondary', route('admin.attendances.create'))
 @section('secondaryButtonText', 'Tambah Absensi Manual')
 
 {{-- ================= FILTER / SEARCH ================= --}}
@@ -48,7 +48,7 @@
                 </span>
             </td>
             <td class="p-3 text-center">
-                <a href="{{ route('attendances.show', $a->id) }}"
+                <a href="{{ route('admin.attendances.show', $a->id) }}"
                    class="px-10 py-1 bg-blue-500/40 hover:bg-blue-500/60 border border-white/20 rounded-lg font-semibold transition">
                     Detail
                 </a>
@@ -101,7 +101,7 @@
             </div>
 
             <div class="mt-5">
-                <a href="{{ route('attendances.show', $a->id) }}"
+                <a href="{{ route('admin.attendances.show', $a->id) }}"
                 class="px-4 py-3 bg-blue-500/40 border border-white/20 rounded-xl font-semibold text-center block">
                     Detail
                 </a>

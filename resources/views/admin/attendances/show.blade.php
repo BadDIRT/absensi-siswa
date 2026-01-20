@@ -78,13 +78,13 @@
     {{-- BUTTONS --}}
     <div class="flex flex-col sm:flex-row gap-3 mt-8">
 
-        <a href="{{ route('attendances.index') }}"
+        <a href="{{ route('admin.attendances.index') }}"
             class="px-5 py-3 bg-white/20 hover:bg-white/30 border border-white/30 rounded-xl font-semibold text-center backdrop-blur-xl
                     transition duration-300 transform hover:-translate-y-1 hover:shadow-lg hover:shadow-white/20">
             Kembali
         </a>
 
-        <a href="{{ route('attendances.edit', $attendance->id) }}"
+        <a href="{{ route('admin.attendances.edit', $attendance->id) }}"
             class="px-5 py-3 bg-yellow-500/60 hover:bg-yellow-500/80 border border-white/20 rounded-xl font-semibold backdrop-blur-xl text-center
                     transition duration-300 transform hover:-translate-y-1 hover:shadow-lg hover:shadow-yellow-500/30">
             Edit
@@ -122,7 +122,7 @@
                 Batal
             </button>
 
-            <form action="{{ route('attendances.destroy', $attendance->id) }}" method="POST" class="w-full">
+            <form action="{{ route('admin.attendances.destroy', $attendance->id) }}" method="POST" class="w-full">
                 @csrf
                 @method('DELETE')
                 <button type="submit"

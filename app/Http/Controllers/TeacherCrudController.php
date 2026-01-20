@@ -75,7 +75,7 @@ class TeacherCrudController extends Controller
 
         Teacher::create($validated);
 
-        return redirect()->route('teachers.index')
+        return redirect()->route('admin.teachers.index')
             ->with('success', 'Data guru berhasil ditambahkan!');
     }
 
@@ -114,7 +114,7 @@ class TeacherCrudController extends Controller
 
         $teacher->update($validated);
 
-        return redirect()->route('teachers.index')
+        return redirect()->route('admin.teachers.index')
             ->with('success', 'Data guru berhasil diperbarui!');
     }
 
@@ -125,7 +125,7 @@ class TeacherCrudController extends Controller
     {
         $teacher->delete();
 
-        return redirect()->route('teachers.index')
+        return redirect()->route('admin.teachers.index')
             ->with('success', 'Data guru berhasil dihapus!');
     }
 }

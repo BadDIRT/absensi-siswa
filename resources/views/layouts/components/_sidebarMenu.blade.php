@@ -12,9 +12,9 @@
           </a>
 
           <!-- REKAP ABSEN -->
-          <a href="{{ route('attendances.index') }}" 
+          <a href="{{ route('admin.attendances.index') }}" 
              class="block px-4 py-2 rounded-xl 
-                    {{ request()->routeIs('attendances.*') 
+                    {{ request()->routeIs('admin.attendances.*') 
                         ? 'bg-gradient-to-r from-blue-500/70 to-indigo-500/70 text-white shadow-lg' 
                         : 'bg-white/10 text-white/80 hover:bg-gradient-to-r hover:from-blue-400/40 hover:to-indigo-400/40 hover:text-white' }}
                     transition-all duration-300 ease-out transform hover:scale-105">
@@ -22,9 +22,9 @@
           </a>
 
           <!-- DATA SISWA -->
-          <a href="{{ route('students.index') }}" 
+          <a href="{{ route('admin.students.index') }}" 
              class="block px-4 py-2 rounded-xl 
-                    {{ request()->routeIs('students.*') 
+                    {{ request()->routeIs('admin.students.*') 
                         ? 'bg-gradient-to-r from-blue-500/70 to-indigo-500/70 text-white shadow-lg' 
                         : 'bg-white/10 text-white/80 hover:bg-gradient-to-r hover:from-blue-400/40 hover:to-indigo-400/40 hover:text-white' }}
                     transition-all duration-300 ease-out transform hover:scale-105">
@@ -32,9 +32,9 @@
           </a>
 
           <!-- DATA GURU -->
-          <a href="{{ route('teachers.index') }}" 
+          <a href="{{ route('admin.teachers.index') }}" 
              class="block px-4 py-2 rounded-xl 
-                    {{ request()->routeIs('teachers.*') 
+                    {{ request()->routeIs('admin.teachers.*') 
                         ? 'bg-gradient-to-r from-blue-500/70 to-indigo-500/70 text-white shadow-lg' 
                         : 'bg-white/10 text-white/80 hover:bg-gradient-to-r hover:from-blue-400/40 hover:to-indigo-400/40 hover:text-white' }}
                     transition-all duration-300 ease-out transform hover:scale-105">
@@ -42,9 +42,9 @@
           </a>
 
           <!-- DATA KELAS -->
-          <a href="{{ route('classes.index') }}" 
+          <a href="{{ route('admin.classes.index') }}" 
              class="block px-4 py-2 rounded-xl 
-                    {{ request()->routeIs('classes.*') 
+                    {{ request()->routeIs('admin.classes.*') 
                         ? 'bg-gradient-to-r from-blue-500/70 to-indigo-500/70 text-white shadow-lg' 
                         : 'bg-white/10 text-white/80 hover:bg-gradient-to-r hover:from-blue-400/40 hover:to-indigo-400/40 hover:text-white' }}
                     transition-all duration-300 ease-out transform hover:scale-105">
@@ -52,21 +52,13 @@
           </a>
 
           <!-- DATA JURUSAN -->
-          <a href="{{ route('departments.index') }}" 
+          <a href="{{ route('admin.departments.index') }}" 
              class="block px-4 py-2 rounded-xl 
-                    {{ request()->routeIs('departments.*') 
+                    {{ request()->routeIs('admin.departments.*') 
                         ? 'bg-gradient-to-r from-blue-500/70 to-indigo-500/70 text-white shadow-lg' 
                         : 'bg-white/10 text-white/80 hover:bg-gradient-to-r hover:from-blue-400/40 hover:to-indigo-400/40 hover:text-white' }}
                     transition-all duration-300 ease-out transform hover:scale-105">
             🧩 Data Jurusan
-          </a>
-
-          <!-- PENGATURAN -->
-          <a href="#" 
-             class="block px-4 py-2 rounded-xl 
-                    bg-white/10 text-white/80 hover:bg-gradient-to-r hover:from-blue-400/40 hover:to-indigo-400/40 hover:text-white 
-                    transition-all duration-300 ease-out transform hover:scale-105">
-            ⚙️ Pengaturan
           </a>
         </nav>
       </div>
