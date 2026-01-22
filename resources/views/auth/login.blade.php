@@ -54,7 +54,7 @@
               class="w-16 h-16 md:w-20 md:h-20 object-contain drop-shadow-md animate-pop"
           >
           <h1 class="text-2xl md:text-3xl font-extrabold text-white drop-shadow-md mt-3 tracking-wide">
-              Selamat Datang 👋
+              Selamat Datang
           </h1>
           <p class="text-blue-50 text-sm">Masuk untuk melanjutkan ke dashboard</p>
       </div>

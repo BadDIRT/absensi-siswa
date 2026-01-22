@@ -19,28 +19,28 @@ $statusCards = [
     [
         'title' => 'Hadir',
         'value' => $statusStats['hadir'] ?? 0,
-        'icon'  => '✅',
+        'icon'  => '',
         'color' => 'green',
         'url'   => url('/teacher/attendances?search=&filter_field=status&filter_value=hadir&sort_order=latest')
     ],
     [
         'title' => 'Tidak Hadir',
         'value' => $statusStats['tidak hadir'] ?? 0,
-        'icon'  => '❌',
+        'icon'  => '',
         'color' => 'red',
         'url'   => url('/teacher/attendances?search=&filter_field=status&filter_value=tidak+hadir&sort_order=latest')
     ],
     [
         'title' => 'Sakit',
         'value' => $statusStats['sakit'] ?? 0,
-        'icon'  => '🤒',
+        'icon'  => '',
         'color' => 'yellow',
         'url'   => url('/teacher/attendances?search=&filter_field=status&filter_value=sakit&sort_order=latest')
     ],
     [
         'title' => 'Izin',
         'value' => $statusStats['izin'] ?? 0,
-        'icon'  => '📄',
+        'icon'  => '',
         'color' => 'blue',
         'url'   => url('/teacher/attendances?search=&filter_field=status&filter_value=izin&sort_order=latest')
     ],

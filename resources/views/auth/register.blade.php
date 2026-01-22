@@ -8,7 +8,7 @@
   <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.15.1/dist/cdn.min.js"></script>
 </head>
 
-<body class="min-h-screen flex items-center justify-center @include('layouts.bgColor') relative overflow-hidden">
+<body class="min-h-screen flex items-center justify-center @include('layouts.components._bgColor') relative overflow-hidden">
 
   <!-- Glow Background Animated -->
   <div class="absolute w-60 md:w-72 h-60 md:h-72 bg-white/20 rounded-full blur-3xl top-10 left-5 md:left-20 animate-pulse slow"></div>

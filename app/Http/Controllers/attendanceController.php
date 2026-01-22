@@ -11,7 +11,12 @@ class AttendanceController extends Controller
 {
     public function scanForm()
     {
+        if(auth()->user()->role === 'admin')
         return view('admin.attendances.scan');
+        elseif(auth()->user()->role === 'teacher')
+        return view('teacher.attendances.scan');
+        else
+        return view('student.attendances.scan');
     }
 
     public function scanProcess(Request $request)
