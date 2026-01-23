@@ -6,6 +6,7 @@ use App\Models\Student;
 use App\Models\Department;
 use App\Models\SchoolClass;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class StudentCrudController extends Controller
 {
@@ -65,7 +66,12 @@ class StudentCrudController extends Controller
         // PAGINATION
         $students = $query->paginate(10)->withQueryString();
 
+        if(Auth::user()->role === 'admin')
         return view('admin.students.index', compact('students'));
+        elseif(Auth::user()->role === 'teacher')
+        return view('teacher.students.index', compact('students'));
+        else
+        return view('student.students.index', compact('students'));
     }
 
     /**

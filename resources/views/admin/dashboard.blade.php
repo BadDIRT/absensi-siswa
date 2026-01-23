@@ -27,7 +27,7 @@ $statusCards = [
         'title' => 'Tidak Hadir',
         'value' => $statusStats['tidak hadir'] ?? 0,
         'icon'  => '',
-        'color' => 'red',
+        'color' => '',
         'url'   => url('/admin/attendances?search=&filter_field=status&filter_value=tidak+hadir&sort_order=latest')
     ],
     [

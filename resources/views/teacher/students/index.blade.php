@@ -20,7 +20,7 @@
     <div class="p-4 sm:p-6 w-full">
 
         @include('layouts.components._logo')
-        @include('layouts.components._sidebarMenu')
+        @include('layouts.components._sidebarMenu2')
 
         <div class="flex-1 flex flex-col transition-all duration-300">
 
